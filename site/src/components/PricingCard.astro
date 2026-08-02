@@ -1,0 +1,67 @@
+---
+interface Props {
+  price?: string;
+  oldPrice?: string;
+  period?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  features?: string[];
+  highlight?: boolean;
+}
+
+const {
+  price = '€7.99',
+  period = 'plătești o singură dată',
+  ctaLabel = 'Începe acum',
+  ctaHref = '/pricing',
+  highlight = true,
+} = Astro.props;
+
+const features = Astro.props.features ?? [
+  'Acces complet la toate cele 12 module',
+  'Actualizări gratuite pe viață',
+  'Plan de 30 de zile pas cu pas',
+  'Fișă de urmărire a câștigurilor',
+  'Primii bani chiar din prima săptămână',
+];
+---
+
+<div
+  class:list={[
+    'flex flex-col rounded-2xl border p-8',
+    highlight ? 'border-brand-200 bg-white shadow-float ring-1 ring-brand-600/10' : 'border-slate-200 bg-white shadow-soft',
+  ]}
+>
+  {highlight && (
+    <p class="mb-4 inline-flex w-fit items-center rounded-full bg-brand-600 px-3 py-1 text-xs font-semibold text-white">
+      Recomandat
+    </p>
+  )}
+  <div class="flex items-baseline gap-2">
+    <span class="font-sans text-4xl font-extrabold tracking-tight text-ink">{price}</span>
+  </div>
+  <p class="mt-1 text-sm text-slate-500">{period}</p>
+
+  <ul class="mt-6 space-y-3">
+    {
+      features.map((f) => (
+        <li class="flex items-start gap-3 text-sm text-slate-700">
+          <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">✓</span>
+          {f}
+        </li>
+      ))
+    }
+  </ul>
+
+  <a
+    href={ctaHref}
+    class:list={[
+      'mt-8 inline-flex items-center justify-center rounded-lg px-6 py-3 text-base font-semibold transition-all',
+      highlight
+        ? 'bg-brand-600 text-white shadow-lift hover:-translate-y-0.5 hover:bg-brand-700'
+        : 'bg-slate-900 text-white hover:bg-slate-800',
+    ]}
+  >
+    {ctaLabel}
+  </a>
+</div>

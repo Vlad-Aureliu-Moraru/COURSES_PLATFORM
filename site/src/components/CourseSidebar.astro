@@ -1,0 +1,74 @@
+---
+import { isFree, hasAccess } from '../lib/access';
+
+interface Props {
+  modules: Array<{
+    id: string;
+    data: {
+      title?: string;
+      order?: number;
+      est_time?: string;
+      free?: boolean;
+    };
+  }>;
+  currentSlug?: string;
+}
+
+const { modules, currentSlug } = Astro.props;
+
+const sorted = [...modules].sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
+
+function sectionOf(order: number) {
+  if (order <= 1) return 'Ghid';
+  if (order <= 8) return 'Metode de câștig';
+  return 'Setup & plan';
+}
+
+const grouped = new Map<string, typeof sorted>();
+for (const m of sorted) {
+  const key = sectionOf(m.data.order ?? 0);
+  if (!grouped.has(key)) grouped.set(key, []);
+  grouped.get(key)!.push(m);
+}
+---
+
+<nav class="space-y-6">
+  {
+    [...grouped.entries()].map(([section, items]) => (
+      <div>
+        <p class="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-slate-400">{section}</p>
+        <ul class="space-y-0.5">
+          {items.map((m) => {
+            const slug = m.id;
+            const active = slug === currentSlug;
+            const open = hasAccess(m);
+            return (
+              <li>
+                <a
+                  href={open ? `/curs/${slug}` : '/pricing'}
+                  class:list={[
+                    'flex min-w-0 items-center justify-between gap-2 rounded-lg px-3 py-2 text-sm transition-colors',
+                    active
+                      ? 'bg-brand-50 font-semibold text-brand-700'
+                      : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900',
+                  ]}
+                >
+                  <span class="flex min-w-0 items-center gap-2">
+                    <span class:list={[
+                      'flex h-5 w-5 shrink-0 items-center justify-center rounded text-[11px] font-bold',
+                      active ? 'bg-brand-600 text-white' : 'bg-slate-100 text-slate-500',
+                    ]}>
+                      {(m.data.order ?? 0) + 1}
+                    </span>
+                    <span class="min-w-0 flex-1 truncate">{m.data.title?.replace(/^Modulul\s+(Bonus\s+)?(\d+\s+—\s+)?/, '') ?? m.id}</span>
+                  </span>
+                  {!open && <span class="shrink-0 text-slate-400" aria-label="blocat">🔒</span>}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    ))
+  }
+</nav>

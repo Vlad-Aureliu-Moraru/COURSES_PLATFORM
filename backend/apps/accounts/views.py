@@ -1,0 +1,95 @@
+from rest_framework import generics, status
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.throttling import AnonRateThrottle
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+from .emailing import send_password_reset_email, send_welcome_email
+from .models import PasswordResetToken, User
+from .serializers import (
+    ConfirmResetSerializer,
+    EmailTokenObtainPairSerializer,
+    RequestResetSerializer,
+    SignupSerializer,
+    UserSerializer,
+)
+
+
+class SignupThrottle(AnonRateThrottle):
+    rate = '2/min'
+
+
+class LoginThrottle(AnonRateThrottle):
+    scope = 'login'
+
+
+class PasswordResetRequestThrottle(AnonRateThrottle):
+    scope = 'password_reset_request'
+
+
+class LoginView(TokenObtainPairView):
+    serializer_class = EmailTokenObtainPairSerializer
+    throttle_classes = [LoginThrottle]
+
+
+class SignupView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = [AllowAny]
+    serializer_class = SignupSerializer
+    throttle_classes = [SignupThrottle]
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        send_welcome_email(user.email, user.get_full_name() or user.email)
+        refresh = RefreshToken.for_user(user)
+        return Response(
+            {
+                'user': UserSerializer(user).data,
+                'access': str(refresh.access_token),
+                'refresh': str(refresh),
+            },
+            status=status.HTTP_201_CREATED,
+        )
+
+
+class ProfileView(generics.RetrieveUpdateAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user
+
+
+class PasswordResetRequestView(generics.GenericAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = RequestResetSerializer
+    throttle_classes = [PasswordResetRequestThrottle]
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.user
+        if user is not None:
+            reset, token = PasswordResetToken.create_for_user(user)
+            send_password_reset_email(user.email, user.get_full_name() or user.email, token)
+        return Response(
+            {'detail': 'Dacă există un cont cu acest email, am trimis un link de resetare.'},
+            status=status.HTTP_200_OK,
+        )
+
+
+class PasswordResetConfirmView(generics.GenericAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = ConfirmResetSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(
+            {'detail': 'Parola a fost resetată. Te poți conecta acum.'},
+            status=status.HTTP_200_OK,
+        )

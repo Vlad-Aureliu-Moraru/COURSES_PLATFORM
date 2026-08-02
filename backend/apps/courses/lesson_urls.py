@@ -1,0 +1,7 @@
+from django.urls import path
+
+from . import views
+
+urlpatterns = [
+    path('', views.LessonAccessView.as_view(), name='lesson-access'),
+]

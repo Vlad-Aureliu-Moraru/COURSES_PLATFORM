@@ -1,0 +1,59 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PricingCard from '../components/PricingCard.astro';
+import FAQ from '../components/FAQ.astro';
+
+const faqs = [
+  {
+    q: 'Cum plătesc?',
+    a: 'Prin card bancar, într-un checkout securizat Stripe. Nu stocăm datele cardului tău pe site.',
+  },
+  {
+    q: 'Plătesc o singură dată?',
+    a: 'Da. €7.99 o singură dată, acces pe viață + toate actualizările viitoare gratuite.',
+  },
+  {
+    q: 'Pot primi banii înapoi?',
+    a: 'Da, ai 14 zile de garanție. Dacă nu ți se pare util, primești rambursarea completă.',
+  },
+  {
+    q: 'Ce se întâmplă după plată?',
+    a: 'Primești acces instant la toate cele 12 module, direct pe site, plus confirmare prin email.',
+  },
+];
+
+const included = [
+  'Acces complet la toate cele 12 module',
+  'Ghid rapid de ziua 1 (email, PayPal, primele task-uri)',
+  'Plan de 30 de zile cu ținte săptămânale',
+  'Fișă de urmărire a câștigurilor',
+  'Toate actualizările viitoare, gratuite',
+  'Suport pe email',
+];
+---
+
+<Layout title="Preț — BaniOnline" description="Cursul complet de bani online, €7.99, o singură plată. Acces pe viață.">
+  <section class="mx-auto w-full max-w-6xl px-5 py-20 sm:px-8">
+    <div class="mx-auto mb-12 max-w-2xl text-center">
+      <p class="mb-3 text-sm font-semibold uppercase tracking-wider text-brand-600">Preț simplu</p>
+      <h1 class="font-sans text-4xl font-extrabold tracking-tight text-ink">Investiție de o singură dată</h1>
+      <p class="mt-4 text-lg text-slate-600">Mai puțin decât o pizza. Cu potențialul de a-ți aduce primii $1–5 pe zi, chiar din prima săptămână.</p>
+    </div>
+
+    <div class="mx-auto max-w-md">
+      <PricingCard price="€7.99" features={included} />
+    </div>
+
+    <div class="mx-auto mt-8 flex max-w-md items-center justify-center gap-3 rounded-xl border border-emerald-200 bg-emerald-50 px-6 py-4 text-sm text-emerald-800">
+      <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-white">✓</span>
+      Garanție de 14 zile — banii înapoi dacă nu ești mulțumit
+    </div>
+  </section>
+
+  <section class="border-t border-slate-200 bg-white py-20">
+    <div class="mx-auto w-full max-w-3xl px-5 sm:px-8">
+      <h2 class="mb-8 text-center font-sans text-3xl font-bold tracking-tight text-ink">Întrebări despre plată</h2>
+      <FAQ items={faqs} />
+    </div>
+  </section>
+</Layout>

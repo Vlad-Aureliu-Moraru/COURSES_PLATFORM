@@ -1,0 +1,98 @@
+---
+import '../styles/global.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
+import '@fontsource/inter/800.css';
+import '@fontsource/source-serif-4/400.css';
+import '@fontsource/source-serif-4/600.css';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogType?: string;
+  canonical?: string;
+}
+
+const {
+  title,
+  description = 'Curs practic de bani online pentru începători: metode simple, verificate, de la €1–5 pe zi.',
+  ogType = 'website',
+  canonical,
+} = Astro.props;
+const { pathname } = Astro.url;
+
+const siteUrl = 'https://example.com';
+const pageUrl = canonical ?? `${siteUrl}${pathname}`;
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Course',
+  name: 'BaniOnline — Curs practic de bani online',
+  description,
+  provider: {
+    '@type': 'Organization',
+    name: 'BaniOnline',
+  },
+  offers: {
+    '@type': 'Offer',
+    price: '7.99',
+    priceCurrency: 'EUR',
+    availability: 'https://schema.org/InStock',
+  },
+};
+---
+
+<!doctype html>
+<html lang="ro">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={pageUrl} />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:locale" content="ro_RO" />
+    <meta property="og:site_name" content="BaniOnline" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={pageUrl} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+    <title>{title}</title>
+  </head>
+  <body class="flex min-h-screen flex-col bg-surface">
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-brand-600 focus:px-4 focus:py-2 focus:text-white">
+      Sari la conținut
+    </a>
+    <div id="scroll-progress" class="fixed left-0 top-0 z-[60] h-0.5 bg-gradient-to-r from-brand-500 to-brand-600" style="width:0%" aria-hidden="true"></div>
+    <Navbar currentPath={pathname} />
+    <main id="main" class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<script>
+  const progress = document.getElementById('scroll-progress');
+  if (progress) {
+    const update = () => {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      progress.style.width = scrollable > 0 ? `${(window.scrollY / scrollable) * 100}%` : '0%';
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  }
+</script>

@@ -1,0 +1,107 @@
+---
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+const links = [
+  { href: '/', label: 'Acasă' },
+  { href: '/curs', label: 'Curs' },
+  { href: '/blog', label: 'Ghid gratuit' },
+  { href: '/pricing', label: 'Preț' },
+];
+
+function isActive(href: string) {
+  if (href === '/') return currentPath === '/';
+  return currentPath.startsWith(href);
+}
+---
+
+<header class="sticky top-0 z-50 border-b border-slate-200/70 bg-white/80 backdrop-blur-md">
+  <nav class="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-5 sm:px-8" aria-label="Principal">
+    <a href="/" class="flex items-center gap-2.5">
+      <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-sm font-bold text-white shadow-soft">
+        $
+      </span>
+      <span class="font-sans text-base font-bold tracking-tight text-ink">
+        Bani<span class="text-brand-600">Online</span>
+      </span>
+    </a>
+
+    <div class="hidden items-center gap-1 md:flex">
+      {links.map((link) => (
+        <a
+          href={link.href}
+          class:list={[
+            'rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+            isActive(link.href)
+              ? 'bg-brand-50 text-brand-700'
+              : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900',
+          ]}
+        >
+          {link.label}
+        </a>
+      ))}
+    </div>
+
+    <div class="flex items-center gap-3">
+      <a
+        href="/pricing"
+        class="hidden rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white shadow-soft transition-all hover:bg-brand-700 hover:shadow-lift sm:inline-flex"
+      >
+        Începe acum
+      </a>
+
+      <button
+        id="menu-toggle"
+        type="button"
+        class="inline-flex items-center justify-center rounded-lg p-2 text-slate-600 hover:bg-slate-100 md:hidden"
+        aria-label="Deschide meniul"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        data-menu-toggle
+      >
+        <svg data-menu-icon-open class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <svg data-menu-icon-close class="hidden h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <div id="mobile-menu" class="hidden border-t border-slate-200 bg-white px-5 py-4 md:hidden" data-mobile-menu>
+    <div class="flex flex-col gap-1">
+      {links.map((link) => (
+        <a
+          href={link.href}
+          class:list={[
+            'rounded-lg px-3 py-2.5 text-sm font-medium',
+            isActive(link.href) ? 'bg-brand-50 text-brand-700' : 'text-slate-700 hover:bg-slate-100',
+          ]}
+        >
+          {link.label}
+        </a>
+      ))}
+      <a href="/pricing" class="mt-2 rounded-lg bg-brand-600 px-3 py-2.5 text-center text-sm font-semibold text-white">
+        Începe acum
+      </a>
+    </div>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const menu = document.querySelector<HTMLElement>('[data-mobile-menu]');
+  const iconOpen = document.querySelector<SVGElement>('[data-menu-icon-open]');
+  const iconClose = document.querySelector<SVGElement>('[data-menu-icon-close]');
+
+  toggle?.addEventListener('click', () => {
+    const open = menu?.classList.toggle('hidden') === false;
+    toggle.setAttribute('aria-expanded', String(open));
+    iconOpen?.classList.toggle('hidden', open);
+    iconClose?.classList.toggle('hidden', !open);
+  });
+</script>

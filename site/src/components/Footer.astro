@@ -1,0 +1,51 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-slate-200 bg-white">
+  <div class="mx-auto w-full max-w-6xl px-5 py-12 sm:px-8">
+    <div class="grid gap-10 md:grid-cols-[1.5fr_1fr_1fr]">
+      <div>
+        <a href="/" class="flex items-center gap-2.5">
+          <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-brand-500 to-brand-700 text-sm font-bold text-white">
+            $
+          </span>
+          <span class="font-sans text-base font-bold tracking-tight text-ink">
+            Bani<span class="text-brand-600">Online</span>
+          </span>
+        </a>
+        <p class="mt-4 max-w-sm text-sm leading-relaxed text-slate-500">
+          Curs practic de bani online pentru începători. Metode simple, verificate și oneste — fără scheme, fără promisiuni false.
+        </p>
+        <div class="mt-5 flex flex-wrap gap-2">
+          <span class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-600">Stripe securizat</span>
+          <span class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-600">PayPal</span>
+          <span class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-600">Payoneer</span>
+        </div>
+      </div>
+
+      <div>
+        <p class="mb-3 text-sm font-semibold text-ink">Curs</p>
+        <ul class="space-y-2 text-sm text-slate-500">
+          <li><a href="/curs" class="transition-colors hover:text-brand-600">Toate modulele</a></li>
+          <li><a href="/blog" class="transition-colors hover:text-brand-600">Ghid gratuit</a></li>
+          <li><a href="/pricing" class="transition-colors hover:text-brand-600">Preț</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="mb-3 text-sm font-semibold text-ink">Legal</p>
+        <ul class="space-y-2 text-sm text-slate-500">
+          <li><a href="/termeni" class="transition-colors hover:text-brand-600">Termeni și condiții</a></li>
+          <li><a href="/privacy" class="transition-colors hover:text-brand-600">Confidențialitate</a></li>
+          <li><a href="/afiliati" class="transition-colors hover:text-brand-600">Declarație de afiliere</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-10 flex flex-col items-center justify-between gap-3 border-t border-slate-100 pt-6 sm:flex-row">
+      <p class="text-xs text-slate-400">© {year} BaniOnline. Toate drepturile rezervate.</p>
+      <p class="text-xs text-slate-400">Veniturile variază. Nimeni nu poate garanta câștiguri.</p>
+    </div>
+  </div>
+</footer>
