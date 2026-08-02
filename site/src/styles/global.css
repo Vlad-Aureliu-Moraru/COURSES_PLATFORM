@@ -32,6 +32,10 @@
     scroll-behavior: smooth;
   }
 
+  :root {
+    color-scheme: only light;
+  }
+
   body {
     @apply bg-surface text-ink font-sans antialiased;
   }
