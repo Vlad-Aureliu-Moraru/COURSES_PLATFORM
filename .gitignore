@@ -1,0 +1,6 @@
+# Local backups (may contain credentials)
+.backups/
+
+# Environment / secrets
+.env
+.env.live
