@@ -17,8 +17,6 @@ services:
     build:
       context: .
       dockerfile: backend/Dockerfile
-    ports:
-      - "${API_PORT:-8000}:8000"
     environment:
       DJANGO_SETTINGS_MODULE: config.settings.production
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY:?DJANGO_SECRET_KEY required}
@@ -45,7 +43,22 @@ services:
       db:
         condition: service_healthy
 
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - api
+
 volumes:
   pgdata:
   staticfiles:
   mediafiles:
+  caddy_data:
+  caddy_config:
