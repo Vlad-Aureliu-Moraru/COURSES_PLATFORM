@@ -10,6 +10,7 @@ api_v1 = [
     path('auth/', include('apps.accounts.urls')),
     path('courses/', include('apps.courses.urls')),
     path('lessons/<slug:slug>/', include('apps.courses.lesson_urls')),
+    path('payments/', include('apps.payments.urls')),
     path('health/', include('apps.health.urls')),
     path('schema/', SpectacularAPIView.as_view(), name='schema'),
     path('docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),

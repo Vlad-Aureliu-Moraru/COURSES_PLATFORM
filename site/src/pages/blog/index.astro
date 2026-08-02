@@ -52,10 +52,21 @@ const freeModules = modules
         <p class="mx-auto mt-2 max-w-lg text-white/80">
           Toate metodele complete de câștig, planul de 30 de zile și fișa de urmărire — cu o singură plată.
         </p>
-        <a href="/pricing" class="mt-6 inline-flex items-center justify-center rounded-lg bg-white px-7 py-3 text-base font-semibold text-brand-700 shadow-float transition-all hover:-translate-y-0.5 hover:bg-brand-50">
+        <button data-checkout class="mt-6 inline-flex cursor-pointer items-center justify-center rounded-lg bg-white px-7 py-3 text-base font-semibold text-brand-700 shadow-float transition-all hover:-translate-y-0.5 hover:bg-brand-50">
           Deblochează cursul — €7.99
-        </a>
+        </button>
       </div>
     </div>
   </section>
 </Layout>
+
+<script>
+  import { startCheckout } from '../../lib/api';
+  document.querySelectorAll<HTMLElement>('[data-checkout]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      startCheckout().catch(() => {
+        btn.textContent = 'Nu am putut iniția plata. Încearcă din nou.';
+      });
+    });
+  });
+</script>

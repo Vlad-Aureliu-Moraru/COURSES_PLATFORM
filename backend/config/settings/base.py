@@ -10,6 +10,8 @@ DEBUG = config('DJANGO_DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = config('DJANGO_ALLOWED_HOSTS', default='localhost,127.0.0.1,0.0.0.0').split(',')
 
+SITE_URL = config('SITE_URL', default='http://localhost:4321')
+
 CSRF_TRUSTED_ORIGINS = config(
     'CSRF_TRUSTED_ORIGINS', default='http://localhost:4321,http://localhost:8000'
 ).split(',')
@@ -161,6 +163,10 @@ SPECTACULAR_SETTINGS = {
 
 COURSE_PRICE_CENTS = 799
 COURSE_CURRENCY = 'eur'
+
+STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY', default='')
+STRIPE_WEBHOOK_SECRET = config('STRIPE_WEBHOOK_SECRET', default='')
+STRIPE_PRICE_ID = config('STRIPE_PRICE_ID', default='')
 
 LOGGING = {
     'version': 1,

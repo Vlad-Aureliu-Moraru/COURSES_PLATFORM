@@ -87,9 +87,9 @@ const testimonials = [
       </p>
 
       <div class="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-        <a href="/pricing" class="inline-flex items-center justify-center gap-2 rounded-lg bg-brand-600 px-7 py-3.5 text-base font-semibold text-white shadow-lift transition-all hover:-translate-y-0.5 hover:bg-brand-700 hover:shadow-float">
+        <button data-checkout class="inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-brand-600 px-7 py-3.5 text-base font-semibold text-white shadow-lift transition-all hover:-translate-y-0.5 hover:bg-brand-700 hover:shadow-float">
           Începe cursul — €7.99
-        </a>
+        </button>
         <a href="/blog" class="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-7 py-3.5 text-base font-semibold text-slate-700 shadow-soft transition-all hover:-translate-y-0.5 hover:border-slate-400">
           Începe gratuit
         </a>
@@ -234,10 +234,21 @@ const testimonials = [
         <p class="mx-auto mt-4 max-w-xl text-white/80">
           Primul dolar pare mic. Devine $50, apoi $500 — depinde doar de cât de constant rămâi.
         </p>
-        <a href="/pricing" class="mt-8 inline-flex items-center justify-center rounded-lg bg-white px-8 py-3.5 text-base font-semibold text-brand-700 shadow-float transition-all hover:-translate-y-0.5 hover:bg-brand-50">
+        <button data-checkout class="mt-8 inline-flex cursor-pointer items-center justify-center rounded-lg bg-white px-8 py-3.5 text-base font-semibold text-brand-700 shadow-float transition-all hover:-translate-y-0.5 hover:bg-brand-50">
           Începe cursul — €7.99
-        </a>
+        </button>
       </div>
     </div>
   </section>
 </Layout>
+
+<script>
+  import { startCheckout } from '../lib/api';
+  document.querySelectorAll<HTMLElement>('[data-checkout]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      startCheckout().catch(() => {
+        btn.textContent = 'Nu am putut iniția plata. Încearcă din nou.';
+      });
+    });
+  });
+</script>

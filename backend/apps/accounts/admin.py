@@ -1,6 +1,24 @@
 from django.contrib import admin
 
+from apps.courses.models import Enrollment
+from apps.payments.models import Payment
+
 from .models import PasswordResetToken, User
+
+
+class EnrollmentInline(admin.TabularInline):
+    model = Enrollment
+    extra = 0
+    fields = ('course', 'status', 'granted_at')
+    readonly_fields = ('granted_at',)
+
+
+class PaymentInline(admin.TabularInline):
+    model = Payment
+    extra = 0
+    fields = ('course', 'amount_cents', 'currency', 'status', 'stripe_session_id', 'created_at')
+    readonly_fields = ('created_at',)
+    show_change_link = True
 
 
 @admin.register(User)
@@ -9,6 +27,7 @@ class UserAdmin(admin.ModelAdmin):
     list_filter = ('is_active', 'is_staff', 'is_superuser')
     search_fields = ('email', 'first_name', 'last_name')
     ordering = ('-date_joined',)
+    readonly_fields = ('date_joined', 'last_login')
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         ('Personal info', {'fields': ('first_name', 'last_name')}),
@@ -24,6 +43,7 @@ class UserAdmin(admin.ModelAdmin):
             'fields': ('email', 'password1', 'password2'),
         }),
     )
+    inlines = [EnrollmentInline, PaymentInline]
 
 
 @admin.register(PasswordResetToken)

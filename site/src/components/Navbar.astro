@@ -46,12 +46,35 @@ function isActive(href: string) {
     </div>
 
     <div class="flex items-center gap-3">
-      <a
-        href="/pricing"
-        class="hidden rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white shadow-soft transition-all hover:bg-brand-700 hover:shadow-lift sm:inline-flex"
-      >
-        Începe acum
-      </a>
+      <div id="auth-area" class="hidden items-center gap-3 sm:flex">
+        <button
+          data-checkout
+          class="hidden rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white shadow-soft transition-all hover:bg-brand-700 hover:shadow-lift sm:inline-flex"
+        >
+          Începe acum
+        </button>
+        <a
+          href="/login"
+          class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-slate-400"
+        >
+          Intră în cont
+        </a>
+      </div>
+      <div id="user-area" class="hidden items-center gap-3 sm:flex">
+        <button
+          data-checkout
+          class="hidden rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white shadow-soft transition-all hover:bg-brand-700 hover:shadow-lift sm:inline-flex"
+        >
+          Începe acum
+        </button>
+        <span id="user-email" class="max-w-[10rem] truncate rounded-lg border border-slate-200 px-3 py-2 text-sm font-medium text-slate-600"></span>
+        <button
+          id="logout-btn"
+          class="hidden rounded-lg px-3 py-2 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-800 sm:inline-flex"
+        >
+          Ieși
+        </button>
+      </div>
 
       <button
         id="menu-toggle"
@@ -88,11 +111,21 @@ function isActive(href: string) {
       <a href="/pricing" class="mt-2 rounded-lg bg-brand-600 px-3 py-2.5 text-center text-sm font-semibold text-white">
         Începe acum
       </a>
+      <div id="mobile-auth" class="flex flex-col gap-1 pt-1">
+        <a href="/login" class="rounded-lg px-3 py-2.5 text-center text-sm font-medium text-slate-700 hover:bg-slate-100">
+          Intră în cont
+        </a>
+        <button id="mobile-logout" class="hidden rounded-lg px-3 py-2.5 text-center text-sm font-medium text-slate-500 hover:bg-slate-100">
+          Ieși din cont
+        </button>
+      </div>
     </div>
   </div>
 </header>
 
 <script>
+  import { isAuthenticated, clearTokens, getCurrentUserEmail, startCheckout } from '../lib/api';
+
   const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
   const menu = document.querySelector<HTMLElement>('[data-mobile-menu]');
   const iconOpen = document.querySelector<SVGElement>('[data-menu-icon-open]');
@@ -104,4 +137,45 @@ function isActive(href: string) {
     iconOpen?.classList.toggle('hidden', open);
     iconClose?.classList.toggle('hidden', !open);
   });
+
+  const authArea = document.getElementById('auth-area');
+  const userArea = document.getElementById('user-area');
+  const userEmail = document.getElementById('user-email');
+  const logoutBtn = document.getElementById('logout-btn');
+  const mobileLogout = document.getElementById('mobile-logout');
+  const desktopMq = window.matchMedia('(min-width: 640px)');
+
+  function renderAuth() {
+    const authed = isAuthenticated();
+    const onDesktop = desktopMq.matches;
+    authArea?.classList.toggle('hidden', authed || !onDesktop);
+    userArea?.classList.toggle('hidden', !authed || !onDesktop);
+    if (authed && userEmail) userEmail.textContent = getCurrentUserEmail() ?? '';
+    if (logoutBtn) logoutBtn.classList.toggle('hidden', !authed || !onDesktop);
+    if (mobileLogout) mobileLogout.classList.toggle('hidden', !authed);
+  }
+
+  desktopMq.addEventListener('change', renderAuth);
+
+  logoutBtn?.addEventListener('click', () => {
+    clearTokens();
+    renderAuth();
+    window.location.href = '/';
+  });
+
+  mobileLogout?.addEventListener('click', () => {
+    clearTokens();
+    renderAuth();
+    window.location.href = '/';
+  });
+
+  document.querySelectorAll<HTMLElement>('[data-checkout]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      startCheckout().catch(() => {
+        btn.textContent = 'Nu am putut iniția plata. Încearcă din nou.';
+      });
+    });
+  });
+
+  renderAuth();
 </script>

@@ -15,3 +15,5 @@ def disable_throttling(settings):
         key: '10000/min' for key in settings.REST_FRAMEWORK.get('DEFAULT_THROTTLE_RATES', {})
     }
     settings.EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
+    settings.STRIPE_SECRET_KEY = 'sk_test_dummy'
+    settings.STRIPE_WEBHOOK_SECRET = 'whsec_dummy'

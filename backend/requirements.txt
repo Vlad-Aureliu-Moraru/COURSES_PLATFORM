@@ -8,4 +8,5 @@ drf-spectacular>=0.28,<1
 gunicorn>=23,<24
 django-csp>=3.8,<4
 structlog>=25.1,<26
+stripe>=12,<14
 psycopg2-binary>=2.9,<3

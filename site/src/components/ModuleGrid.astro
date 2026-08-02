@@ -23,7 +23,7 @@ const sorted = [...modules].sort((a, b) => (a.data.order ?? 0) - (b.data.order ?
   {
     sorted.map((m) => (
       <a
-        href={m.data.free ? `/curs/${m.id}` : '/pricing'}
+        href={`/curs/${m.id}`}
         class="group flex flex-col rounded-xl border border-slate-200 bg-white p-6 shadow-soft transition-all hover:-translate-y-1 hover:border-brand-200 hover:shadow-lift"
       >
         <div class="mb-4 flex items-center justify-between">

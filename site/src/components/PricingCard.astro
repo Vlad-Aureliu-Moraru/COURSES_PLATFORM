@@ -53,15 +53,40 @@ const features = Astro.props.features ?? [
     }
   </ul>
 
-  <a
-    href={ctaHref}
-    class:list={[
-      'mt-8 inline-flex items-center justify-center rounded-lg px-6 py-3 text-base font-semibold transition-all',
-      highlight
-        ? 'bg-brand-600 text-white shadow-lift hover:-translate-y-0.5 hover:bg-brand-700'
-        : 'bg-slate-900 text-white hover:bg-slate-800',
-    ]}
-  >
-    {ctaLabel}
-  </a>
+  {ctaHref === '/pricing' ? (
+    <button
+      data-checkout
+      class:list={[
+        'mt-8 inline-flex cursor-pointer items-center justify-center rounded-lg px-6 py-3 text-base font-semibold transition-all',
+        highlight
+          ? 'bg-brand-600 text-white shadow-lift hover:-translate-y-0.5 hover:bg-brand-700'
+          : 'bg-slate-900 text-white hover:bg-slate-800',
+      ]}
+    >
+      {ctaLabel}
+    </button>
+  ) : (
+    <a
+      href={ctaHref}
+      class:list={[
+        'mt-8 inline-flex items-center justify-center rounded-lg px-6 py-3 text-base font-semibold transition-all',
+        highlight
+          ? 'bg-brand-600 text-white shadow-lift hover:-translate-y-0.5 hover:bg-brand-700'
+          : 'bg-slate-900 text-white hover:bg-slate-800',
+      ]}
+    >
+      {ctaLabel}
+    </a>
+  )}
 </div>
+
+<script>
+  import { startCheckout } from '../lib/api';
+  document.querySelectorAll<HTMLElement>('[data-checkout]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      startCheckout().catch(() => {
+        btn.textContent = 'Nu am putut iniția plata. Încearcă din nou.';
+      });
+    });
+  });
+</script>

@@ -2,7 +2,7 @@ from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 
 
-def _wrap_html(content_html):
+def _wrap_html(title, content_html):
     return f"""<!DOCTYPE html>
 <html lang="ro">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"></head>
@@ -18,12 +18,14 @@ def _wrap_html(content_html):
           </tr>
           <tr>
             <td style="padding:32px;">
+              <h1 style="margin:0 0 8px;font-size:20px;color:#0f172a;">{title}</h1>
               {content_html}
             </td>
           </tr>
           <tr>
             <td style="padding:20px 32px 28px;border-top:1px solid #e2e8f0;">
               <p style="margin:0;font-size:12px;color:#64748b;">
+                Îți oferim garanție de 14 zile — dacă nu ți se pare util cursul, primești banii înapoi.<br>
                 <a href="{settings.SITE_URL}" style="color:#4f46e5;">{settings.SITE_URL}</a>
               </p>
             </td>
@@ -34,6 +36,15 @@ def _wrap_html(content_html):
   </table>
 </body>
 </html>"""
+
+
+def _btn(href, label):
+    return (
+        f'<p style="margin:24px 0 0;">'
+        f'<a href="{href}" style="display:inline-block;background-color:#4f46e5;color:#ffffff;'
+        f'text-decoration:none;font-weight:bold;padding:12px 24px;border-radius:8px;">{label}</a>'
+        f'</p>'
+    )
 
 
 def _send_html_email(email, subject, text_body, html_body):
@@ -47,46 +58,59 @@ def _send_html_email(email, subject, text_body, html_body):
     message.send()
 
 
-def send_welcome_email(email, full_name=None):
-    name = full_name or email
-    subject = 'Bine ai venit la BaniOnline!'
+def send_payment_confirmation_email(user, payment):
+    email = user.email
+    name = user.get_full_name() or user.email
+    course_title = payment.course.title if payment.course else 'Cursul complet de bani online'
+    amount = f'{payment.amount:.2f} {payment.currency.upper()}'
+
+    subject = 'Plata a fost confirmată — BaniOnline'
     text_body = (
         f'Salut, {name}!\n\n'
-        'Contul tău a fost creat cu succes.\n'
-        'În curând vei avea acces la cursul complet de bani online.\n\n'
+        f'Plata ta de {amount} a fost confirmată.\n'
+        f'Ai acces instant la „{course_title}” — toate cele 12 module sunt deblocate.\n\n'
+        f'Accesează cursul: {settings.SITE_URL}/curs\n\n'
         'Echipa BaniOnline'
     )
+
     html_body = _wrap_html(
-        f'<h1 style="margin:0 0 8px;font-size:20px;color:#0f172a;">Bine ai venit!</h1>'
+        'Plata a fost confirmată ✓',
         f'<p style="margin:0;font-size:15px;color:#334155;line-height:1.6;">'
         f'Salut, <strong>{name}</strong>!<br>'
-        f'Contul tău a fost creat cu succes.<br>'
-        f'În curând vei avea acces la cursul complet de bani online.</p>'
+        f'Plata ta de <strong>{amount}</strong> a fost confirmată.</p>'
         f'<p style="margin:16px 0 0;font-size:15px;color:#334155;line-height:1.6;">'
-        f'<a href="{settings.SITE_URL}/curs" style="color:#4f46e5;">Vezi cursul →</a></p>'
+        f'Ai acces instant la <strong>{course_title}</strong> — toate cele 12 module sunt deblocate.</p>'
+        f'{_btn(f"{settings.SITE_URL}/curs", "Accesează cursul")}',
     )
+
     _send_html_email(email, subject, text_body, html_body)
 
 
-def send_password_reset_email(email, full_name=None, token=None):
-    name = full_name or email
-    subject = 'Resetare parolă BaniOnline'
+def send_refund_email(user, payment):
+    email = user.email
+    name = user.get_full_name() or user.email
+    amount = f'{payment.amount:.2f} {payment.currency.upper()}'
+
+    subject = 'Rambursare procesată — BaniOnline'
     text_body = (
         f'Salut, {name}!\n\n'
-        'Ai cerut resetarea parolei. Folosește token-ul de mai jos:\n\n'
-        f'{token}\n\n'
-        'Token-ul expiră în 24 de ore.\n'
-        'Dacă nu ai cerut această resetare, ignoră acest mesaj.\n\n'
+        f'Rambursarea ta de {amount} a fost procesată.\n'
+        'Suma se va întoarce în contul din care ai plătit, de obicei în 5–10 zile lucrătoare.\n'
+        'Accesul la curs a fost revocat.\n\n'
+        f'Dacă ai întrebări, răspunde direct la acest email.\n\n'
         'Echipa BaniOnline'
     )
+
     html_body = _wrap_html(
-        f'<h1 style="margin:0 0 8px;font-size:20px;color:#0f172a;">Resetare parolă</h1>'
+        'Rambursare procesată',
         f'<p style="margin:0;font-size:15px;color:#334155;line-height:1.6;">'
         f'Salut, <strong>{name}</strong>!<br>'
-        f'Ai cerut resetarea parolei. Folosește token-ul de mai jos:</p>'
-        f'<p style="margin:16px 0;padding:14px;background-color:#f8fafc;border:1px solid #e2e8f0;'
-        f'border-radius:8px;font-family:monospace;font-size:14px;color:#0f172a;word-break:break-all;">{token}</p>'
-        f'<p style="margin:0;font-size:13px;color:#64748b;">Token-ul expiră în 24 de ore.<br>'
-        f'Dacă nu ai cerut această resetare, ignoră acest mesaj.</p>'
+        f'Rambursarea ta de <strong>{amount}</strong> a fost procesată.</p>'
+        f'<p style="margin:16px 0 0;font-size:15px;color:#334155;line-height:1.6;">'
+        f'Suma se întoarce în contul din care ai plătit, de obicei în 5–10 zile lucrătoare. '
+        f'Accesul la curs a fost revocat.</p>'
+        f'<p style="margin:16px 0 0;font-size:15px;color:#334155;line-height:1.6;">'
+        f'Dacă ai întrebări, răspunde direct la acest email.</p>',
     )
+
     _send_html_email(email, subject, text_body, html_body)

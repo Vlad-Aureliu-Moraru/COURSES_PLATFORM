@@ -3,7 +3,6 @@ import Layout from '../../layouts/Layout.astro';
 import { getCollection, render } from 'astro:content';
 import CourseSidebar from '../../components/CourseSidebar.astro';
 import Badge from '../../components/ui/Badge.astro';
-import { hasAccess } from '../../lib/access';
 
 export async function getStaticPaths() {
   const modules = await getCollection('courses');
@@ -13,14 +12,14 @@ export async function getStaticPaths() {
 const { module } = Astro.props;
 const modules = await getCollection('courses');
 
-const open = hasAccess(module);
-const rendered = open ? await render(module) : null;
+const rendered = await render(module);
 
 const index = [...modules].sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
 const current = index.findIndex((m) => m.id === module.id);
 const prev = current > 0 ? index[current - 1] : null;
 const next = current < index.length - 1 ? index[current + 1] : null;
 
+const isFreeModule = Boolean(module.data.free);
 const shortTitle = module.data.title?.replace(/^Modulul\s+(Bonus\s+)?(\d+\s+—\s+)?/, '') ?? module.id;
 ---
 
@@ -44,47 +43,58 @@ const shortTitle = module.data.title?.replace(/^Modulul\s+(Bonus\s+)?(\d+\s+—\
       </aside>
 
       <article class="min-w-0">
-        {open && rendered ? (
+        {isFreeModule ? (
           <>
             <div class="mb-6 flex flex-wrap items-center gap-3">
-              {module.data.free && <Badge tone="green">Gratuit</Badge>}
+              <Badge tone="green">Gratuit</Badge>
               {module.data.est_time && <Badge tone="slate">≈ {module.data.est_time}</Badge>}
             </div>
             <div class="prose-course">
               <rendered.Content />
             </div>
-
-            <div class="mt-12 grid gap-4 border-t border-slate-200 pt-8 sm:grid-cols-2">
-              {prev && hasAccess(prev) ? (
-                <a
-                  href={`/curs/${prev.id}`}
-                  class="group rounded-xl border border-slate-200 bg-white p-5 transition-all hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-lift"
-                >
-                  <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">← Modulul anterior</p>
-                  <p class="mt-1.5 font-sans font-semibold text-ink group-hover:text-brand-700">
-                    {prev.data.title?.replace(/^Modulul\s+(Bonus\s+)?(\d+\s+—\s+)?/, '')}
-                  </p>
-                </a>
-              ) : (
-                <span />
-              )}
-              {next && hasAccess(next) ? (
-                <a
-                  href={`/curs/${next.id}`}
-                  class="group rounded-xl border border-slate-200 bg-white p-5 text-right transition-all hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-lift"
-                >
-                  <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Modulul următor →</p>
-                  <p class="mt-1.5 font-sans font-semibold text-ink group-hover:text-brand-700">
-                    {next.data.title?.replace(/^Modulul\s+(Bonus\s+)?(\d+\s+—\s+)?/, '')}
-                  </p>
-                </a>
-              ) : (
-                <span />
-              )}
-            </div>
           </>
         ) : (
-          <div class="rounded-2xl border border-slate-200 bg-white p-10 text-center">
+          <>
+            <div class="mb-6 flex flex-wrap items-center gap-3" data-gated-content>
+              <Badge tone="slate">≈ {module.data.est_time}</Badge>
+            </div>
+            <div class="prose-course" data-gated-content>
+              <rendered.Content />
+            </div>
+          </>
+        )}
+
+        <div class="mt-12 grid gap-4 border-t border-slate-200 pt-8 sm:grid-cols-2" data-gated-content>
+          {prev ? (
+            <a
+              href={`/curs/${prev.id}`}
+              class="group rounded-xl border border-slate-200 bg-white p-5 transition-all hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-lift"
+            >
+              <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">← Modulul anterior</p>
+              <p class="mt-1.5 font-sans font-semibold text-ink group-hover:text-brand-700">
+                {prev.data.title?.replace(/^Modulul\s+(Bonus\s+)?(\d+\s+—\s+)?/, '')}
+              </p>
+            </a>
+          ) : (
+            <span />
+          )}
+          {next ? (
+            <a
+              href={`/curs/${next.id}`}
+              class="group rounded-xl border border-slate-200 bg-white p-5 text-right transition-all hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-lift"
+            >
+              <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Modulul următor →</p>
+              <p class="mt-1.5 font-sans font-semibold text-ink group-hover:text-brand-700">
+                {next.data.title?.replace(/^Modulul\s+(Bonus\s+)?(\d+\s+—\s+)?/, '')}
+              </p>
+            </a>
+          ) : (
+            <span />
+          )}
+        </div>
+
+        {!isFreeModule && (
+          <div data-gated-paywall class="rounded-2xl border border-slate-200 bg-white p-10 text-center">
             <div class="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100 text-3xl">🔒</div>
             <h1 class="font-sans text-2xl font-bold text-ink">Acest modul face parte din cursul complet</h1>
             <p class="mx-auto mt-3 max-w-md text-slate-600">
@@ -96,9 +106,12 @@ const shortTitle = module.data.title?.replace(/^Modulul\s+(Bonus\s+)?(\d+\s+—\
               <li class="flex items-start gap-2"><span class="mt-0.5 text-emerald-600">✓</span> Garanție de rambursare 14 zile</li>
             </ul>
             <div class="mt-8">
-              <a href="/pricing" class="inline-flex items-center justify-center rounded-lg bg-brand-600 px-7 py-3 text-base font-semibold text-white shadow-lift transition-all hover:-translate-y-0.5 hover:bg-brand-700">
+              <button
+                data-checkout
+                class="inline-flex cursor-pointer items-center justify-center rounded-lg bg-brand-600 px-7 py-3 text-base font-semibold text-white shadow-lift transition-all hover:-translate-y-0.5 hover:bg-brand-700"
+              >
                 Deblochează cursul — €7.99
-              </a>
+              </button>
             </div>
           </div>
         )}
@@ -106,3 +119,31 @@ const shortTitle = module.data.title?.replace(/^Modulul\s+(Bonus\s+)?(\d+\s+—\
     </div>
   </div>
 </Layout>
+
+<script>
+  import { getLesson, startCheckout } from '../../lib/api';
+
+  const slug = window.location.pathname.split('/').filter(Boolean).pop() ?? '';
+  const contentEls = document.querySelectorAll<HTMLElement>('[data-gated-content]');
+  const paywallEl = document.querySelector<HTMLElement>('[data-gated-paywall]');
+
+  if (paywallEl && contentEls.length) {
+    contentEls.forEach((el) => el.classList.add('hidden'));
+  }
+
+  (async () => {
+    const lesson = await getLesson(slug);
+    if (lesson?.is_unlocked) {
+      contentEls.forEach((el) => el.classList.remove('hidden'));
+      paywallEl?.classList.add('hidden');
+    }
+  })();
+
+  document.querySelectorAll<HTMLElement>('[data-checkout]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      startCheckout().catch(() => {
+        btn.textContent = 'Nu am putut iniția plata. Încearcă din nou.';
+      });
+    });
+  });
+</script>

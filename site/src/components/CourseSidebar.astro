@@ -1,5 +1,5 @@
 ---
-import { isFree, hasAccess } from '../lib/access';
+import { isFree } from '../lib/access';
 
 interface Props {
   modules: Array<{
@@ -41,11 +41,11 @@ for (const m of sorted) {
           {items.map((m) => {
             const slug = m.id;
             const active = slug === currentSlug;
-            const open = hasAccess(m);
+            const open = isFree(m);
             return (
               <li>
                 <a
-                  href={open ? `/curs/${slug}` : '/pricing'}
+                  href={`/curs/${slug}`}
                   class:list={[
                     'flex min-w-0 items-center justify-between gap-2 rounded-lg px-3 py-2 text-sm transition-colors',
                     active

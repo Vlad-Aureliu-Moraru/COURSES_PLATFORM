@@ -1,0 +1,101 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const next = Astro.url.searchParams.get('next') ?? '/curs';
+---
+
+<Layout title="Creează un cont — BaniOnline" description="Creează un cont gratuit pentru cursul de bani online.">
+  <section class="mx-auto w-full max-w-md px-5 py-20 sm:px-8">
+    <div class="mb-8 text-center">
+      <h1 class="font-sans text-3xl font-extrabold tracking-tight text-ink">Creează un cont</h1>
+      <p class="mt-2 text-sm text-slate-600">Gratuit — îl folosești pentru a accesa cursul.</p>
+    </div>
+
+    <form id="signup-form" class="space-y-4 rounded-2xl border border-slate-200 bg-white p-8 shadow-soft">
+      <div>
+        <label for="email" class="mb-1.5 block text-sm font-medium text-slate-700">Email</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          required
+          autocomplete="email"
+          class="w-full rounded-lg border border-slate-300 px-4 py-2.5 text-sm text-ink outline-none transition-colors focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
+          placeholder="tu@email.com"
+        />
+      </div>
+      <div>
+        <label for="password" class="mb-1.5 block text-sm font-medium text-slate-700">Parolă</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          required
+          minlength="8"
+          autocomplete="new-password"
+          class="w-full rounded-lg border border-slate-300 px-4 py-2.5 text-sm text-ink outline-none transition-colors focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
+          placeholder="Cel puțin 8 caractere, literă și cifră"
+        />
+      </div>
+      <div>
+        <label for="password2" class="mb-1.5 block text-sm font-medium text-slate-700">Repetă parola</label>
+        <input
+          id="password2"
+          name="password2"
+          type="password"
+          required
+          minlength="8"
+          autocomplete="new-password"
+          class="w-full rounded-lg border border-slate-300 px-4 py-2.5 text-sm text-ink outline-none transition-colors focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
+          placeholder="••••••••"
+        />
+      </div>
+
+      <p id="form-error" class="hidden rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"></p>
+
+      <button
+        type="submit"
+        class="w-full rounded-lg bg-brand-600 px-6 py-3 text-base font-semibold text-white shadow-lift transition-all hover:-translate-y-0.5 hover:bg-brand-700"
+      >
+        Creează contul
+      </button>
+    </form>
+
+    <p class="mt-6 text-center text-sm text-slate-600">
+      Ai deja cont?
+      <a href="/login" class="font-semibold text-brand-600 hover:text-brand-700">Intră în cont</a>
+    </p>
+  </section>
+</Layout>
+
+<script>
+  import { signup } from '../lib/api';
+
+  const next = new URLSearchParams(window.location.search).get('next') ?? '/curs';
+  const form = document.getElementById('signup-form') as HTMLFormElement | null;
+  const errorEl = document.getElementById('form-error') as HTMLParagraphElement | null;
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = (form.elements.namedItem('email') as HTMLInputElement).value;
+    const password = (form.elements.namedItem('password') as HTMLInputElement).value;
+    const password2 = (form.elements.namedItem('password2') as HTMLInputElement).value;
+    if (password !== password2) {
+      if (errorEl) {
+        errorEl.textContent = 'Parolele nu coincid.';
+        errorEl.classList.remove('hidden');
+      }
+      return;
+    }
+    if (errorEl) errorEl.classList.add('hidden');
+    try {
+      await signup(email, password);
+      window.location.href = next;
+    } catch (err) {
+      if (errorEl) {
+        errorEl.textContent = err instanceof Error ? err.message : 'Înregistrarea a eșuat.';
+        errorEl.classList.remove('hidden');
+      }
+    }
+  });
+</script>
