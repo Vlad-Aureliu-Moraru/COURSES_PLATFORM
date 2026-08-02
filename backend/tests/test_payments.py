@@ -32,6 +32,25 @@ def test_checkout_requires_auth(db):
     assert response.status_code == 401
 
 
+def test_checkout_rejects_already_purchased(db):
+    course = make_course()
+    user = make_user()
+    client = auth_client(user)
+    Payment.objects.create(
+        user=user, course=course, stripe_session_id='cs_paid_x', status='paid'
+    )
+
+    response = client.post(
+        '/api/v1/payments/checkout/',
+        {'course': 'bani-online'},
+        format='json',
+    )
+
+    assert response.status_code == 409
+    assert response.data['detail'] == 'Ai deja acces la curs.'
+    assert not Payment.objects.filter(stripe_session_id='cs_test_123').exists()
+
+
 def test_checkout_creates_pending_payment(db):
     course = make_course()
     user = make_user()
@@ -59,14 +78,14 @@ def test_checkout_creates_pending_payment(db):
     assert payment.amount_cents == 799
 
 
-def test_checkout_enables_automatic_tax(db):
+def test_checkout_sets_flat_price_without_tax(db):
     course = make_course()
     user = make_user()
     client = auth_client(user)
 
     session = {
-        'id': 'cs_tax_1',
-        'url': 'https://checkout.stripe.com/c/pay/cs_tax_1',
+        'id': 'cs_flat_1',
+        'url': 'https://checkout.stripe.com/c/pay/cs_flat_1',
     }
 
     with patch('apps.payments.services.stripe.checkout.Session.create', return_value=session) as mock:
@@ -77,7 +96,10 @@ def test_checkout_enables_automatic_tax(db):
         )
 
     assert response.status_code == 200
-    assert mock.call_args.kwargs['automatic_tax'] == {'enabled': True}
+    assert 'automatic_tax' not in mock.call_args.kwargs
+    price_data = mock.call_args.kwargs['line_items'][0]['price_data']
+    assert price_data['unit_amount'] == 799
+    assert 'tax_behavior' not in price_data
 
 
 def test_webhook_rejects_bad_signature(db):

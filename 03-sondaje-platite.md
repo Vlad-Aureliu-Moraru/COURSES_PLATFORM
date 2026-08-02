@@ -1,12 +1,12 @@
 ---
-title: "Modulul 3 — Sondaje Plătite"
+title: "Modulul 4 — Sondaje Plătite"
 order: 3
 est_time: "45 min"
 free: false
 description: "ySense, Swagbucks, PrizeRebel, Toluna, LifePoints: îți dai opinia și primești bani."
 ---
 
-# Modulul 3 — Sondaje Plătite
+# Modulul 4 — Sondaje Plătite
 
 > Companiile plătesc ca să-ți cunoască părerea înainte să lanseze produse. Tu completezi sondaje, ei îți dau puncte/dolari. E simplu, plictisitor, dar real — și un pilon al veniturilor mici zilnice.
 
@@ -94,7 +94,7 @@ Douăzeci de minute pe drum × 2 platforme = $1–2 pe zi pe care altfel nu i-ai
 
 ---
 
-## Checklist Modulul 3
+## Checklist Modulul 4
 
 - [ ] M-am înscris pe ySense și PrizeRebel (sau Swagbucks)
 - [ ] Am completat profilele în întregime
@@ -103,4 +103,4 @@ Douăzeci de minute pe drum × 2 platforme = $1–2 pe zi pe care altfel nu i-ai
 - [ ] Știu pragul minim de retragere pe fiecare platformă
 - [ ] Am calculat câți bani fac pe oră și urmăresc sondajele bune
 
-**Următorul pas:** Modulul 4 — reclame și reward apps (bani pasivi).
+**Următorul pas:** Modulul 5 — reclame și reward apps (bani pasivi).

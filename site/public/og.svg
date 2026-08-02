@@ -6,7 +6,7 @@
     </linearGradient>
   </defs>
   <rect width="1200" height="630" fill="url(#bg)"/>
-  <text x="80" y="300" font-family="Arial, Helvetica, sans-serif" font-size="96" font-weight="bold" fill="#ffffff">Bani<span fill="#a5b4fc">Online</span></text>
+  <text x="80" y="300" font-family="Arial, Helvetica, sans-serif" font-size="96" font-weight="bold" fill="#ffffff">Bani<tspan fill="#a5b4fc">Online</tspan></text>
   <text x="84" y="400" font-family="Arial, Helvetica, sans-serif" font-size="40" fill="#c7d2fe">Curs practic de bani online pentru începători</text>
   <text x="84" y="470" font-family="Arial, Helvetica, sans-serif" font-size="32" fill="#a5b4fc">€7.99 · o singură plată · acces pe viață</text>
   <rect x="80" y="510" width="280" height="8" rx="4" fill="#a5b4fc"/>

@@ -1,12 +1,12 @@
 ---
-title: "Modulul 2 — Micro-taskuri: Bani Mici, Rapizi"
+title: "Modulul 3 — Micro-taskuri: Bani Mici, Rapizi"
 order: 2
 est_time: "1 oră"
 free: false
 description: "RapidWorkers, Microworkers, SproutGigs, TimeBucks, Clickworker. Calea cea mai rapidă spre primul dolar."
 ---
 
-# Modulul 2 — Micro-taskuri: Bani Mici, Rapizi
+# Modulul 3 — Micro-taskuri: Bani Mici, Rapizi
 
 > Micro-taskurile sunt **calea cea mai rapidă spre primul dolar**. Sunt sarcini mici, simple, plătite cu câțiva centi fiecare: click-uri, like-uri, înregistrări pe site-uri, căutări, teste. Nu îți trebuie nicio abilitate. Îți trebuie timp și constanță.
 
@@ -65,7 +65,7 @@ description: "RapidWorkers, Microworkers, SproutGigs, TimeBucks, Clickworker. Ca
 
 **SproutGigs** — reține că **PayPal nu mai e disponibil** pentru retrageri de câțiva ani. Folosește Skrill sau crypto dacă le ai. Vezi ce metode apar în contul tău, pentru că pot varia pe țară.
 
-**TimeBucks** — plătește zilnic și are multe metode, dar pragul minim e mare. Ideal ca sursă pasivă de acumulare în paralel cu altele (vezi Modulul 4).
+**TimeBucks** — plătește zilnic și are multe metode, dar pragul minim e mare. Ideal ca sursă pasivă de acumulare în paralel cu altele (vezi Modulul 5).
 
 **Clickworker** — cea mai "profesionistă". După ce faci câteva task-uri simple, verifică dacă ai acces la **UHRS** (platforma de data labeling). Acolo plătesc mult mai bine: $5–15/oră pentru sarcini de etichetare, căutări, comparații. Mulți ajung să câștige mai mult din Clickworker decât din toate celelalte la un loc.
 
@@ -83,7 +83,7 @@ description: "RapidWorkers, Microworkers, SproutGigs, TimeBucks, Clickworker. Ca
 - **30–60 de minute** pe zi, constant.
 - Caută întâi task-urile cu cel mai bun raport bani/timp (de obicei 0.10–0.50$).
 - Încearcă să strângi **$1–2 pe zi** la început.
-- La finalul fiecărei zile, notează suma în fișa de urmărire (vezi Modulul 8).
+- La finalul fiecărei zile, notează suma în fișa de urmărire (vezi Modulul 9).
 
 ---
 
@@ -112,12 +112,12 @@ description: "RapidWorkers, Microworkers, SproutGigs, TimeBucks, Clickworker. Ca
 ## 7. Când să treci la nivelul următor
 
 Când ajungi constant la **$2–3/zi** doar din micro-taskuri (în ~2–4 săptămâni), adaugă:
-- **Sondajele** (Modulul 3) — îți măresc câștigul pe aceleași ore.
-- **Serviciile pe Fiverr** (Modulul 7) — îți cresc venitul cu un singur task plătit $10+.
+- **Sondajele** (Modulul 4) — îți măresc câștigul pe aceleași ore.
+- **Serviciile pe Fiverr** (Modulul 8) — îți cresc venitul cu un singur task plătit $10+.
 
 ---
 
-## Checklist Modulul 2
+## Checklist Modulul 3
 
 - [ ] M-am înscris pe RapidWorkers (sau altă platformă) și am completat profilul
 - [ ] M-am înscris pe a doua platformă de micro-taskuri
@@ -126,4 +126,4 @@ Când ajungi constant la **$2–3/zi** doar din micro-taskuri (în ~2–4 săpt�
 - [ ] Știu regulile de siguranță (nu date personale, nu multi-cont, nu bot)
 - [ ] Am notat câștigul zilnic
 
-**Următorul pas:** Modulul 3 — sondaje plătite.
+**Următorul pas:** Modulul 4 — sondaje plătite.

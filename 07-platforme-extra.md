@@ -1,12 +1,12 @@
 ---
-title: "Modulul 7 — Platforme Extra pentru Câștiguri Mici"
+title: "Modulul 8 — Platforme Extra pentru Câștiguri Mici"
 order: 7
 est_time: "45 min"
 free: false
 description: "Fiverr, Freelancer, SEOClerks, Outlier: de la centi la dolari per sarcină."
 ---
 
-# Modulul 7 — Platforme Extra pentru Câștiguri Mici
+# Modulul 8 — Platforme Extra pentru Câștiguri Mici
 
 > Aceste platforme te duc peste plafonul micro-taskurilor: în loc de centi, înveți să câștigi **dolari per sarcină**. Nu necesită skill-uri avansate — necesită o abilitate mică pe care deja o ai (scrii, editezi, vorbești, ești atent la detalii).
 
@@ -50,7 +50,7 @@ description: "Fiverr, Freelancer, SEOClerks, Outlier: de la centi la dolari per 
 - **Avantaj:** plătesc bine. **Dezavantaj:** liste de așteptare, disponibilitate pe țări variabilă, sarcini intermitente.
 - Verifică mereu dacă țara ta e acceptată înainte să pierzi timp.
 
-> **Atenție la clonuri:** există zeci de site-uri "data labeling" false care cer bani "pentru training". Outlier, DataAnnotation, Toloka și Clickworker (Modulul 2) sunt legitime. Dacă un site de labeling îți cere să plătești, e scam.
+> **Atenție la clonuri:** există zeci de site-uri "data labeling" false care cer bani "pentru training". Outlier, DataAnnotation, Toloka și Clickworker (Modulul 3) sunt legitime. Dacă un site de labeling îți cere să plătești, e scam.
 
 ---
 
@@ -99,7 +99,7 @@ description: "Fiverr, Freelancer, SEOClerks, Outlier: de la centi la dolari per 
 
 ---
 
-## Checklist Modulul 7
+## Checklist Modulul 8
 
 - [ ] Mi-am creat profilul pe Fiverr (sau SEOClerks)
 - [ ] Am scris un gig simplu cu preț $5–10 și descriere clară
@@ -108,4 +108,4 @@ description: "Fiverr, Freelancer, SEOClerks, Outlier: de la centi la dolari per 
 - [ ] Știu regula: niciodată nu iau plata pe dinafara platformei
 - [ ] Am un plan: 2 luni pe o singură platformă, nu toate deodată
 
-**Următorul pas:** Modulul 8 — cum combini metodele ca să ajungi la $5–10/zi.
+**Următorul pas:** Modulul 9 — cum combini metodele ca să ajungi la $5–10/zi.

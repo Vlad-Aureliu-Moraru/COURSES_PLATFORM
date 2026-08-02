@@ -1,12 +1,12 @@
 ---
-title: "Modulul 00 — Ghid Rapid: Ziua 1"
+title: "Modulul 1 — Ghid Rapid: Ziua 1"
 order: 0
 est_time: "1-2 ore"
 free: true
 description: "Primii pași pentru a începe azi: email, PayPal, primele task-uri."
 ---
 
-# Modulul 00 — Ghid Rapid: Ziua 1
+# Modulul 1 — Ghid Rapid: Ziua 1
 
 > Oricine poate începe astăzi. Urmează acești pași în ordine și vei avea conturi create, primele task-uri făcute și primul potențial câștig în aceeași zi.
 
@@ -22,7 +22,7 @@ Nu folosi emailul personal pentru platforme de câștig. Vei primi spam și news
 - Nume recomandat: `numelemeu.work@gmail.com` sau `numelemeu.online@gmail.com`.
 - Folosește o parolă unică, lungă, cu litere mari/mici, cifre și simboluri.
 
-> Detalii complete în **Modulul 10 (Bonus)**.
+> Detalii complete în **Modulul 11 (Setup Conturi)**.
 
 ---
 
@@ -34,7 +34,7 @@ Majoritatea platformelor plătesc prin **PayPal** sau **Payoneer**.
 - Verifică-ți emailul și conectează un card sau cont bancar.
 - Alternativ (pentru platforme fără PayPal): cont **Payoneer** gratuit la [payoneer.com](https://www.payoneer.com).
 
-> Pași detaliați, cu capturi descrise, în **Modulul 10**.
+> Pași detaliați, cu capturi descrise, în **Modulul 11**.
 
 ---
 
@@ -81,9 +81,9 @@ Dacă ai reușit pașii de mai sus (chiar dacă ai câștigat doar câțiva cent
 
 **Continuă cu:**
 
-- **Modulul 2** — micro-taskuri în detaliu (calea cea mai rapidă spre $1–5/zi)
-- **Modulul 8** — cum combini platformele ca să ajungi la $5–10/zi
-- **Modulul 11** — planul complet de 30 de zile
+- **Modulul 3** — micro-taskuri în detaliu (calea cea mai rapidă spre $1–5/zi)
+- **Modulul 9** — cum combini platformele ca să ajungi la $5–10/zi
+- **Modulul 12** — planul complet de 30 de zile
 
 ---
 

@@ -39,7 +39,7 @@ const freeCount = sorted.filter((m) => isFree(m)).length;
               {m.data.description && <p class="mt-1 truncate text-sm text-slate-500">{m.data.description}</p>}
               <p class="mt-1.5 text-xs text-slate-400">
                 {m.data.est_time ? `≈ ${m.data.est_time}` : ''}
-                {open ? ' · gratuit' : ' · inclus în cursul complet'}
+                {!open ? ' · inclus în cursul complet' : ''}
               </p>
             </div>
             <span class="shrink-0 rounded-lg border border-slate-200 px-3 py-1.5 text-sm font-medium text-slate-500 transition-colors group-hover:border-brand-200 group-hover:bg-brand-50 group-hover:text-brand-700">

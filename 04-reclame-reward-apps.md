@@ -1,12 +1,12 @@
 ---
-title: "Modulul 4 — Vizionare Reclame & Reward Apps"
+title: "Modulul 5 — Vizionare Reclame & Reward Apps"
 order: 4
 est_time: "30 min"
 free: false
 description: "Bani pasivi din video-uri, jocuri și oferte: TimeBucks, Swagbucks, Freecash."
 ---
 
-# Modulul 4 — Vizionare Reclame & Reward Apps
+# Modulul 5 — Vizionare Reclame & Reward Apps
 
 > Aceasta e metoda cea mai ușoară — și cea mai prost plătită. O folosești în **fundal**, în timp ce faci altceva. Nu e o metodă de bază, ci un "bonus" care adună câțiva dolari pe lună fără efort real.
 
@@ -47,7 +47,7 @@ Regula nr. 1: **nu sta activ pe aceste platforme.** Le lași să ruleze.
 08:30  — Deschizi TimeBucks, lași playlist-ul de video-uri să
          ruleze în fundal pe laptop. Mergi la serviciu/școală.
 17:30  — Te întorci, verifici punctele acumulate.
-20:00  — Faci 1 oră de micro-taskuri (Modulul 2), iar TimeBucks
+20:00  — Faci 1 oră de micro-taskuri (Modulul 3), iar TimeBucks
          rulează în continuare în alt tab.
 ```
 
@@ -87,7 +87,7 @@ Pe Freecash și Swagbucks există oferte de tipul "instalează jocul X și ajung
 
 ---
 
-## Checklist Modulul 4
+## Checklist Modulul 5
 
 - [ ] Am înțeles că video-urile plătesc centi, nu dolari
 - [ ] Am verificat ce platforme sunt disponibile în țara mea
@@ -96,4 +96,4 @@ Pe Freecash și Swagbucks există oferte de tipul "instalează jocul X și ajung
 - [ ] NU folosesc VPN pe platforme de recompense
 - [ ] Am adăugat câștigul pasiv în fișa zilnică
 
-**Următorul pas:** Modulul 5 — TikTok (calea lentă, dar cu potențial mare).
+**Următorul pas:** Modulul 6 — TikTok (calea lentă, dar cu potențial mare).

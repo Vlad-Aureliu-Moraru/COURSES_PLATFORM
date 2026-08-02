@@ -23,8 +23,7 @@ import Layout from '../layouts/Layout.astro';
       <a
         href="/curs"
         id="go-curs"
-        class="mt-8 inline-flex items-center justify-center rounded-lg bg-brand-600 px-7 py-3 text-base font-semibold text-white shadow-lift transition-all hover:-translate-y-0.5 hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-50"
-        aria-disabled="true"
+        class="mt-8 inline-flex items-center justify-center rounded-lg bg-brand-600 px-7 py-3 text-base font-semibold text-white shadow-lift transition-all hover:-translate-y-0.5 hover:bg-brand-700"
       >
         Mergi la curs
       </a>
@@ -41,7 +40,6 @@ import Layout from '../layouts/Layout.astro';
   import { isAuthenticated, checkPaymentStatus } from '../lib/api';
 
   const statusEl = document.getElementById('status');
-  const goBtn = document.getElementById('go-curs') as HTMLAnchorElement | null;
   const retryBtn = document.getElementById('retry-btn') as HTMLButtonElement | null;
 
   const sessionId = new URLSearchParams(window.location.search).get('session_id') ?? '';
@@ -55,20 +53,12 @@ import Layout from '../layouts/Layout.astro';
     for (let i = 0; i < 15; i++) {
       if (await checkPaid()) {
         if (statusEl) statusEl.textContent = 'Acces activat. Poți începe imediat!';
-        if (goBtn) {
-          goBtn.setAttribute('aria-disabled', 'false');
-          goBtn.classList.remove('disabled:opacity-50');
-        }
         return;
       }
       await new Promise((r) => setTimeout(r, 2000));
     }
     if (statusEl) statusEl.textContent = 'Accesul se activează în continuare. Dacă durează prea mult, încearcă din nou.';
     if (retryBtn) retryBtn.classList.remove('hidden');
-    if (goBtn) {
-      goBtn.setAttribute('aria-disabled', 'false');
-      goBtn.classList.remove('disabled:opacity-50');
-    }
   }
 
   retryBtn?.addEventListener('click', () => {

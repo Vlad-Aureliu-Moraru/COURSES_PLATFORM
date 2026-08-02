@@ -9,7 +9,7 @@ from apps.courses.models import Course
 
 from .models import Payment
 from .serializers import PaymentSerializer
-from .services import create_checkout_session, handle_webhook_event
+from .services import create_checkout_session, handle_webhook_event, user_has_purchased
 
 
 class CheckoutThrottle(ScopedRateThrottle):
@@ -28,6 +28,12 @@ class CheckoutView(views.APIView):
             return Response(
                 {'detail': 'Curs inexistent.'},
                 status=status.HTTP_404_NOT_FOUND,
+            )
+
+        if user_has_purchased(request.user, course):
+            return Response(
+                {'detail': 'Ai deja acces la curs.'},
+                status=status.HTTP_409_CONFLICT,
             )
 
         success_url = settings.SITE_URL + '/success?session_id={CHECKOUT_SESSION_ID}'

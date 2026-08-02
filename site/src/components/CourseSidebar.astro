@@ -60,7 +60,7 @@ for (const m of sorted) {
                     ]}>
                       {(m.data.order ?? 0) + 1}
                     </span>
-                    <span class="min-w-0 flex-1 truncate">{m.data.title?.replace(/^Modulul\s+(Bonus\s+)?(\d+\s+—\s+)?/, '') ?? m.id}</span>
+                    <span class="min-w-0 flex-1 truncate">{m.data.title?.replace(/^Modulul\s+\d+\s+—\s+/, '') ?? m.id}</span>
                   </span>
                   {!open && <span class="shrink-0 text-slate-400" aria-label="blocat">🔒</span>}
                 </a>

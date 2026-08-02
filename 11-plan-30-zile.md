@@ -1,12 +1,12 @@
 ---
-title: "Modulul 11 — Planul Complet de 30 de Zile"
+title: "Modulul 12 — Planul Complet de 30 de Zile"
 order: 11
 est_time: "30 min"
 free: false
 description: "Program pe 4 săptămâni de la zero la prima retragere, cu ținte realiste."
 ---
 
-# Modulul 11 — Planul Complet de 30 de Zile
+# Modulul 12 — Planul Complet de 30 de Zile
 
 > Toate modulele te-au învățat metode. Acest plan le pune **în ordine și în timp**, ca să treci de la zero la prima retragere, apoi la un venit constant, într-o singură lună.
 
@@ -18,29 +18,29 @@ description: "Program pe 4 săptămâni de la zero la prima retragere, cu ținte
 ## Săptămâna 1 — Fundația (7 zile, ~1–1,5 ore/zi)
 
 ### Ziua 1: Setup complet
-- [ ] Email de lucru + 2-Step (Modulul 10)
-- [ ] Cont PayPal verificat (Modulul 10)
-- [ ] Cont Payoneer sau Wise (Modulul 10)
-- [ ] Fișa de evidență creată (Modulul 10)
+- [ ] Email de lucru + 2-Step (Modulul 11)
+- [ ] Cont PayPal verificat (Modulul 11)
+- [ ] Cont Payoneer sau Wise (Modulul 11)
+- [ ] Fișa de evidență creată (Modulul 11)
 
 ### Ziua 2: Micro-taskuri pornesc
-- [ ] Înscris pe **RapidWorkers** + **Microworkers** (sau Clickworker) — profiluri completate (Modulul 2)
+- [ ] Înscris pe **RapidWorkers** + **Microworkers** (sau Clickworker) — profiluri completate (Modulul 3)
 - [ ] 30 de task-uri simple făcute
 
 ### Ziua 3: Sondaje pornesc
-- [ ] Înscris pe **ySense** + **PrizeRebel** (sau Swagbucks) — profiluri completate (Modulul 3)
+- [ ] Înscris pe **ySense** + **PrizeRebel** (sau Swagbucks) — profiluri completate (Modulul 4)
 - [ ] Primul sondaj completat până la capăt
 
 ### Ziua 4: Pasivul pornit
-- [ ] **TimeBucks** (sau Freecash) instalat, video-uri pornite în fundal (Modulul 4)
+- [ ] **TimeBucks** (sau Freecash) instalat, video-uri pornite în fundal (Modulul 5)
 - [ ] 20 de micro-taskuri + 1 sondaj
 
 ### Ziua 5: Prima evaluare
 - [ ] Completat fișa de evidență cu câștigurile din 4 zile
-- [ ] Identificat ce task-uri plătesc cel mai bine (Modulul 8)
+- [ ] Identificat ce task-uri plătesc cel mai bine (Modulul 9)
 
 ### Ziua 6: Decizie pe termen lung
-- [ ] **ALEGI UNA** dintre: Fiverr gig simplu (Modulul 7) / YouTube faceless (Modulul 6) / TikTok (Modulul 5)
+- [ ] **ALEGI UNA** dintre: Fiverr gig simplu (Modulul 8) / YouTube faceless (Modulul 7) / TikTok (Modulul 6)
 - [ ] Îți setezi 30 de minute/zi pentru sursa pe termen lung
 
 ### Ziua 7: Rutina completă
@@ -63,7 +63,7 @@ description: "Program pe 4 săptămâni de la zero la prima retragere, cu ținte
 ### Ziua 14: Revizuire
 - [ ] Sumarul a 2 săptămâni
 - [ ] **Prima retragere** dacă ai pragul atins (ex. RapidWorkers ~$1 sau ySense $10)
-- [ ] Renunțat la platforma care nu a produs nimic în 14 zile de test (Modulul 8)
+- [ ] Renunțat la platforma care nu a produs nimic în 14 zile de test (Modulul 9)
 
 **Țintă săptămâna 2:** **$8–15** adunați + prima retragere.
 
@@ -101,7 +101,7 @@ description: "Program pe 4 săptămâni de la zero la prima retragere, cu ținte
 ### Ziua 30: Direcția următoare
 - [ ] Stabilit obiectivul pentru luna 2 (ex. $10/zi din combinația de baza + $50 din Fiverr)
 - [ ] Plan pentru luna 2: orele, platformele, ce amestec
-- [ ] Decizie taxe: am o evidență clară pentru declarația unică (Modulul 10)?
+- [ ] Decizie taxe: am o evidență clară pentru declarația unică (Modulul 11)?
 
 **Țintă săptămâna 4:** **$20–40** adunați. **Total lună 1: $50–80**, realist.
 
@@ -140,7 +140,7 @@ description: "Program pe 4 săptămâni de la zero la prima retragere, cu ținte
 
 ---
 
-## Checklist final (Modulul 11)
+## Checklist final (Modulul 12)
 
 - [ ] Am completat cele 30 de zile conform planului
 - [ ] Am primii bani retrași în PayPal/Payoneer

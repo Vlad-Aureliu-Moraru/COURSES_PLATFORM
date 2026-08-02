@@ -1,12 +1,12 @@
 ---
-title: "Modulul 5 — TikTok: Monetizare Nivel Basic"
+title: "Modulul 6 — TikTok: Monetizare Nivel Basic"
 order: 5
 est_time: "1 oră"
 free: false
 description: "Creezi un cont, crești fără bani și monetizezi prin Creator Rewards, promovări și afiliere."
 ---
 
-# Modulul 5 — TikTok: Monetizare Nivel Basic
+# Modulul 6 — TikTok: Monetizare Nivel Basic
 
 > TikTok nu te plătește din prima zi. E o cale **lentă, dar cu potențial mare**: crești un cont, construiești o audiență, apoi monetizezi. Pentru un începător e ideal pentru că poți începe cu **zero bani** și fără să-ți arăți fața.
 
@@ -90,7 +90,7 @@ Fostul "Creator Fund" a fost înlocuit de **Creator Rewards Program**. Cerințel
 | Luna 4–6 | 5.000 → 10.000 | Creșterea accelerată | $20–100/lună |
 | Peste prag | 10.000+ + 100k views/30z | Creator Rewards + afiliere + brand deals | $50–300+/lună |
 
-> Majoritatea conturilor **nu** ajung la 10.000 de urmăritori. Cei care ajung sunt cei care **nu s-au oprit din postat**. Dacă vrei o garanție mai mare pentru venit constant, YouTube (Modulul 6) și micro-taskurile (Modulul 2) sunt mai previzibile.
+> Majoritatea conturilor **nu** ajung la 10.000 de urmăritori. Cei care ajung sunt cei care **nu s-au oprit din postat**. Dacă vrei o garanție mai mare pentru venit constant, YouTube (Modulul 7) și micro-taskurile (Modulul 3) sunt mai previzibile.
 
 ---
 
@@ -105,7 +105,7 @@ Fostul "Creator Fund" a fost înlocuit de **Creator Rewards Program**. Cerințel
 
 ---
 
-## Checklist Modulul 5
+## Checklist Modulul 6
 
 - [ ] Mi-am creat contul TikTok cu emailul de lucru
 - [ ] Am ales o nișă clară și un nume de cont
@@ -114,4 +114,4 @@ Fostul "Creator Fund" a fost înlocuit de **Creator Rewards Program**. Cerințel
 - [ ] Am un plan de 1 postare/zi timp de 30 de zile
 - [ ] NU am cumpărat urmăritori și NU folosesc repost fără valoare adăugată
 
-**Următorul pas:** Modulul 6 — YouTube, varianta mai lentă dar mai stabilă.
+**Următorul pas:** Modulul 7 — YouTube, varianta mai lentă dar mai stabilă.

@@ -46,7 +46,7 @@
 
 ## Notă de transparență
 
-Toate sumele din acest curs sunt estimări realiste bazate pe experiența utilizatorilor și pe datele publice ale platformelor. Rezultatele variază în funcție de țară, timp alocat și constanță. **Nimeni nu poate garanta venituri.** Dacă cineva îți promite altceva, citește Modulul 9.
+Toate sumele din acest curs sunt estimări realiste bazate pe experiența utilizatorilor și pe datele publice ale platformelor. Rezultatele variază în funcție de țară, timp alocat și constanță. **Nimeni nu poate garanta venituri.** Dacă cineva îți promite altceva, citește Modulul 10.
 
 Platformele își schimbă frecvent pragurile, metodele de plată și disponibilitatea pe țări. Înainte să pierzi timp pe un site, verifică:
 - dacă funcționează în țara ta,

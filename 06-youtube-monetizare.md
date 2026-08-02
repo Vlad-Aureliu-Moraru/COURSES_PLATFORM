@@ -1,12 +1,12 @@
 ---
-title: "Modulul 6 — YouTube: Monetizare Simplificată (Faceless)"
+title: "Modulul 7 — YouTube: Monetizare Simplificată (Faceless)"
 order: 6
 est_time: "1 oră"
 free: false
 description: "Canale fără față: motivație, topuri, facts. Reclame după prag și afiliere."
 ---
 
-# Modulul 6 — YouTube: Monetizare Simplificată (Faceless)
+# Modulul 7 — YouTube: Monetizare Simplificată (Faceless)
 
 > YouTube e calea **lentă, dar cea mai stabilă** din curs. Poți începe fără față, fără voce proprie și fără bani. Pragul de monetizare e real și clar, iar venitul, odată atins, poate deveni pasiv.
 
@@ -96,7 +96,7 @@ Poți câștiga bani de dinainte să atingi YPP:
 | Luna 6–12 | 1.000+ / 4.000h | Atingi YPP | $50–300+/lună |
 | Peste 1 an | Canale de succes | Conținut constant | $300–1.000+/lună |
 
-> Aproape nimeni nu monetizează sub 6 luni. Dacă vrei bani **acum**, micro-taskurile (Modulul 2) rămân sursa principală. YouTube e investiția de termen lung din portofoliul tău.
+> Aproape nimeni nu monetizează sub 6 luni. Dacă vrei bani **acum**, micro-taskurile (Modulul 3) rămân sursa principală. YouTube e investiția de termen lung din portofoliul tău.
 
 ---
 
@@ -120,7 +120,7 @@ Poți câștiga bani de dinainte să atingi YPP:
 
 ---
 
-## Checklist Modulul 6
+## Checklist Modulul 7
 
 - [ ] Mi-am creat canalul cu nume de nișă
 - [ ] Am activat 2-Step Verification pe contul Google
@@ -130,4 +130,4 @@ Poți câștiga bani de dinainte să atingi YPP:
 - [ ] Am plan: 1–2 video/săptămână timp de 3 luni
 - [ ] Știu pragurile YPP: 1.000 subs + 4.000h SAU 10M Shorts views
 
-**Următorul pas:** Modulul 7 — platforme extra pentru câștiguri mici (Fiverr, Outlier etc.).
+**Următorul pas:** Modulul 8 — platforme extra pentru câștiguri mici (Fiverr, Outlier etc.).

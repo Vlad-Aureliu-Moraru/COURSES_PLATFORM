@@ -139,6 +139,13 @@ export async function checkPaymentStatus(sessionId: string): Promise<boolean> {
   return Boolean(data.paid);
 }
 
+export async function hasPurchased(): Promise<boolean> {
+  const res = await apiFetch('/payments/');
+  if (!res.ok) return false;
+  const payments = await res.json();
+  return Array.isArray(payments) && payments.some((p) => p.status === 'paid');
+}
+
 export async function requestPasswordReset(email: string): Promise<void> {
   const res = await apiFetch('/auth/password/reset/', {
     method: 'POST',

@@ -1,12 +1,12 @@
 ---
-title: "Modulul 9 — Ce Trebuie Evitat"
+title: "Modulul 10 — Ce Trebuie Evitat"
 order: 9
 est_time: "30 min"
 free: true
 description: "Site-uri fake, îmbogățire rapidă, investiții dubioase. Radarul complet anti-scam."
 ---
 
-# Modulul 9 — Ce Trebuie Evitat
+# Modulul 10 — Ce Trebuie Evitat
 
 > Cursul ăsta îți arată metode reale. Dar în jurul lor există o industrie întreagă de înșelătorii care vânează începătorii exact ca tine. Acest modul te învață **să nu pierzi** — e la fel de important ca să câștigi.
 
@@ -102,7 +102,7 @@ Chiar și pe platformele legitime, există reguli a căror încălcare duce la *
 
 ---
 
-## Checklist Modulul 9
+## Checklist Modulul 10
 
 - [ ] Recunosc cele 5 categorii mari de scam (îmbogățire rapidă, task-uri false, clone, investiții, avansuri)
 - [ ] Am memorat red flag-ul nr. 1: "plătești ca să câștigi = scam"
@@ -111,4 +111,4 @@ Chiar și pe platformele legitime, există reguli a căror încălcare duce la *
 - [ ] NU iau plăți pe dinafara platformelor
 - [ ] Știu ce să fac dacă am fost înșelat (nu mai trimit bani, raportez)
 
-**Următorul pas:** Modulul 10 — Bonus: setup conturi pas cu pas.
+**Următorul pas:** Modulul 11 — setup conturi pas cu pas.

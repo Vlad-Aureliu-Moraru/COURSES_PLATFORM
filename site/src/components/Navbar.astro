@@ -46,13 +46,23 @@ function isActive(href: string) {
     </div>
 
     <div class="flex items-center gap-3">
-      <div id="auth-area" class="hidden items-center gap-3 sm:flex">
+      <div id="desktop-cta" class="hidden items-center gap-3 sm:flex">
         <button
           data-checkout
-          class="hidden rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white shadow-soft transition-all hover:bg-brand-700 hover:shadow-lift sm:inline-flex"
+          id="navbar-buy"
+          class="rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white shadow-soft transition-all hover:bg-brand-700 hover:shadow-lift"
         >
           Începe acum
         </button>
+        <a
+          href="/curs"
+          id="navbar-go"
+          class="hidden rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white shadow-soft transition-all hover:bg-brand-700 hover:shadow-lift"
+        >
+          Mergi la curs
+        </a>
+      </div>
+      <div id="auth-area" class="hidden items-center gap-3 sm:flex">
         <a
           href="/login"
           class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-slate-400"
@@ -61,16 +71,10 @@ function isActive(href: string) {
         </a>
       </div>
       <div id="user-area" class="hidden items-center gap-3 sm:flex">
-        <button
-          data-checkout
-          class="hidden rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white shadow-soft transition-all hover:bg-brand-700 hover:shadow-lift sm:inline-flex"
-        >
-          Începe acum
-        </button>
         <span id="user-email" class="max-w-[10rem] truncate rounded-lg border border-slate-200 px-3 py-2 text-sm font-medium text-slate-600"></span>
         <button
           id="logout-btn"
-          class="hidden rounded-lg px-3 py-2 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-800 sm:inline-flex"
+          class="hidden rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-slate-400 sm:inline-flex"
         >
           Ieși
         </button>
@@ -115,7 +119,7 @@ function isActive(href: string) {
         <a href="/login" class="rounded-lg px-3 py-2.5 text-center text-sm font-medium text-slate-700 hover:bg-slate-100">
           Intră în cont
         </a>
-        <button id="mobile-logout" class="hidden rounded-lg px-3 py-2.5 text-center text-sm font-medium text-slate-500 hover:bg-slate-100">
+        <button id="mobile-logout" class="hidden rounded-lg px-3 py-2.5 text-center text-sm font-medium text-slate-700 hover:bg-slate-100">
           Ieși din cont
         </button>
       </div>
@@ -124,7 +128,7 @@ function isActive(href: string) {
 </header>
 
 <script>
-  import { isAuthenticated, clearTokens, getCurrentUserEmail, startCheckout } from '../lib/api';
+  import { isAuthenticated, clearTokens, getCurrentUserEmail, hasPurchased, startCheckout } from '../lib/api';
 
   const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
   const menu = document.querySelector<HTMLElement>('[data-mobile-menu]');
@@ -140,6 +144,8 @@ function isActive(href: string) {
 
   const authArea = document.getElementById('auth-area');
   const userArea = document.getElementById('user-area');
+  const buyBtn = document.getElementById('navbar-buy');
+  const goBtn = document.getElementById('navbar-go');
   const userEmail = document.getElementById('user-email');
   const logoutBtn = document.getElementById('logout-btn');
   const mobileLogout = document.getElementById('mobile-logout');
@@ -148,11 +154,31 @@ function isActive(href: string) {
   function renderAuth() {
     const authed = isAuthenticated();
     const onDesktop = desktopMq.matches;
-    authArea?.classList.toggle('hidden', authed || !onDesktop);
-    userArea?.classList.toggle('hidden', !authed || !onDesktop);
+    if (onDesktop) {
+      authArea && (authArea.style.display = authed ? 'none' : 'flex');
+      userArea && (userArea.style.display = authed ? 'flex' : 'none');
+    } else {
+      authArea && (authArea.style.display = '');
+      userArea && (userArea.style.display = '');
+    }
     if (authed && userEmail) userEmail.textContent = getCurrentUserEmail() ?? '';
-    if (logoutBtn) logoutBtn.classList.toggle('hidden', !authed || !onDesktop);
     if (mobileLogout) mobileLogout.classList.toggle('hidden', !authed);
+  }
+
+  async function renderCta() {
+    if (!isAuthenticated()) {
+      buyBtn?.classList.remove('hidden');
+      if (goBtn) goBtn.classList.add('hidden');
+      return;
+    }
+    try {
+      const purchased = await hasPurchased();
+      buyBtn?.classList.toggle('hidden', purchased);
+      goBtn?.classList.toggle('hidden', !purchased);
+    } catch {
+      buyBtn?.classList.remove('hidden');
+      if (goBtn) goBtn.classList.add('hidden');
+    }
   }
 
   desktopMq.addEventListener('change', renderAuth);
@@ -160,12 +186,14 @@ function isActive(href: string) {
   logoutBtn?.addEventListener('click', () => {
     clearTokens();
     renderAuth();
+    renderCta();
     window.location.href = '/';
   });
 
   mobileLogout?.addEventListener('click', () => {
     clearTokens();
     renderAuth();
+    renderCta();
     window.location.href = '/';
   });
 
@@ -178,4 +206,5 @@ function isActive(href: string) {
   });
 
   renderAuth();
+  void renderCta();
 </script>

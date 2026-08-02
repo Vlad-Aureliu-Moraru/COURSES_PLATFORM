@@ -1,12 +1,12 @@
 ---
-title: "Modulul 1 — Introducere: Ce Înseamnă Bani Online Reali"
+title: "Modulul 2 — Introducere: Ce Înseamnă Bani Online Reali"
 order: 1
 est_time: "30 min"
 free: true
 description: "Așteptări corecte, tipuri de venit online și radarul anti-scam."
 ---
 
-# Modulul 1 — Introducere: Ce Înseamnă Bani Online Reali
+# Modulul 2 — Introducere: Ce Înseamnă Bani Online Reali
 
 > Înainte să faci primul dolar, trebuie să înțelegi clar cu ce lucrezi. Acest modul îți setează așteptările corecte și îți dă radarul anti-scam cu care vei trece prin tot cursul.
 
@@ -62,7 +62,7 @@ Folosește aceste 5 întrebări înainte de orice platformă nouă:
 4. **Te presează să acționezi repede?** ("Oferta expiră în 10 minute") → Scam. Presiunea = tehnică de manipulare.
 5. **Cere date bancare complete sau un "depozit de verificare"?** → Scam. Ai nevoie doar de o adresă de email pentru încasări (PayPal/Payoneer).
 
-> **Lista completă de capcane, cu exemple concrete:** Modulul 9.
+> **Lista completă de capcane, cu exemple concrete:** Modulul 10.
 
 ---
 
@@ -84,7 +84,7 @@ Folosește aceste 5 întrebări înainte de orice platformă nouă:
 ## 5. Ce îți trebuie ca să începi (verifică acum)
 
 - [ ] Un telefon **sau** un laptop cu internet (telefonul e suficient pentru 80% din metode)
-- [ ] O adresă de email (vezi Modulul 10 — separat pentru muncă)
+- [ ] O adresă de email (vezi Modulul 11 — separat pentru muncă)
 - [ ] Cont PayPal **sau** Payoneer (fără ele nu poți retrage)
 - [ ] 1 oră liberă pe zi
 - [ ] Răbdare și constanță — **asta e singura "cheie" reală**
@@ -99,7 +99,7 @@ Folosește aceste 5 întrebări înainte de orice platformă nouă:
 
 ---
 
-## Checklist Modulul 1
+## Checklist Modulul 2
 
 - [ ] Am înțeles diferența dintre venituri rapide (Tip A) și lente (Tip B)
 - [ ] Am setat așteptarea corectă: $1–5/zi, nu milioane peste noapte
@@ -107,4 +107,4 @@ Folosește aceste 5 întrebări înainte de orice platformă nouă:
 - [ ] Știu greșeala #1 (prea multe platforme, prea puțină constanță)
 - [ ] Am verificat că am: email + PayPal/Payoneer + 1 oră/zi
 
-**Următorul pas:** Modulul 2 — micro-taskuri, calea cea mai rapidă spre primul dolar.
+**Următorul pas:** Modulul 3 — micro-taskuri, calea cea mai rapidă spre primul dolar.

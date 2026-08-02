@@ -20,7 +20,7 @@ const prev = current > 0 ? index[current - 1] : null;
 const next = current < index.length - 1 ? index[current + 1] : null;
 
 const isFreeModule = Boolean(module.data.free);
-const shortTitle = module.data.title?.replace(/^Modulul\s+(Bonus\s+)?(\d+\s+—\s+)?/, '') ?? module.id;
+const shortTitle = module.data.title?.replace(/^Modulul\s+\d+\s+—\s+/, '') ?? module.id;
 ---
 
 <Layout
@@ -79,7 +79,7 @@ const shortTitle = module.data.title?.replace(/^Modulul\s+(Bonus\s+)?(\d+\s+—\
             >
               <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">← Modulul anterior</p>
               <p class="mt-1.5 font-sans font-semibold text-ink group-hover:text-brand-700">
-                {prev.data.title?.replace(/^Modulul\s+(Bonus\s+)?(\d+\s+—\s+)?/, '')}
+                {prev.data.title?.replace(/^Modulul\s+\d+\s+—\s+/, '')}
               </p>
             </a>
           ) : (
@@ -92,7 +92,7 @@ const shortTitle = module.data.title?.replace(/^Modulul\s+(Bonus\s+)?(\d+\s+—\
             >
               <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Modulul următor →</p>
               <p class="mt-1.5 font-sans font-semibold text-ink group-hover:text-brand-700">
-                {next.data.title?.replace(/^Modulul\s+(Bonus\s+)?(\d+\s+—\s+)?/, '')}
+                {next.data.title?.replace(/^Modulul\s+\d+\s+—\s+/, '')}
               </p>
             </a>
           ) : (
@@ -135,25 +135,27 @@ const shortTitle = module.data.title?.replace(/^Modulul\s+(Bonus\s+)?(\d+\s+—\
   const navEl = document.querySelector<HTMLElement>('[data-gated-content]');
   const paywallEl = document.querySelector<HTMLElement>('[data-gated-paywall]');
 
-  if (navEl) navEl.classList.add('hidden');
-  if (paywallEl) paywallEl.classList.add('hidden');
+  if (contentEl) {
+    if (navEl) navEl.classList.add('hidden');
+    if (paywallEl) paywallEl.classList.add('hidden');
 
-  (async () => {
-    const lesson = await getLesson(slug);
-    if (lesson?.is_unlocked) {
-      const html = await getLessonContent(slug);
-      if (contentEl && html) {
-        contentEl.innerHTML = html;
-        contentEl.classList.remove('hidden');
+    (async () => {
+      const lesson = await getLesson(slug);
+      if (lesson?.is_unlocked) {
+        const html = await getLessonContent(slug);
+        if (contentEl && html) {
+          contentEl.innerHTML = html;
+          contentEl.classList.remove('hidden');
+        }
+        navEl?.classList.remove('hidden');
+        paywallEl?.classList.add('hidden');
+      } else {
+        paywallEl?.classList.remove('hidden');
+        navEl?.classList.remove('hidden');
       }
-      navEl?.classList.remove('hidden');
-      paywallEl?.classList.add('hidden');
-    } else {
-      paywallEl?.classList.remove('hidden');
-      navEl?.classList.remove('hidden');
-    }
-    if (loadingEl) loadingEl.remove();
-  })();
+      if (loadingEl) loadingEl.remove();
+    })();
+  }
 
   document.querySelectorAll<HTMLElement>('[data-checkout]').forEach((btn) => {
     btn.addEventListener('click', () => {

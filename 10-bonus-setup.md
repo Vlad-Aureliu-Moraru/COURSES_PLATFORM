@@ -1,12 +1,12 @@
 ---
-title: "Modulul Bonus — Setup Conturi Pas cu Pas"
+title: "Modulul 11 — Setup Conturi Pas cu Pas"
 order: 10
 est_time: "1 oră"
 free: false
 description: "Email separat, PayPal, Payoneer, retrageri și evidența pentru taxe."
 ---
 
-# Modulul Bonus — Setup Conturi Pas cu Pas
+# Modulul 11 — Setup Conturi Pas cu Pas
 
 > Fundația tehnică face diferența dintre un începător care "se joacă" și unul care chiar scoate bani. Un email organizat, metode de plată verificate și o evidență clară îți salvează ore și bani.
 
@@ -101,7 +101,7 @@ Fă un tabel (Google Sheets sau hârtie):
 
 ---
 
-## Checklist Bonus
+## Checklist Modulul 11
 
 - [ ] Mi-am creat emailul separat de lucru cu 2-Step Verification
 - [ ] Am cont PayPal personal, verificat, cu numele corect
@@ -110,4 +110,4 @@ Fă un tabel (Google Sheets sau hârtie):
 - [ ] Am fișa de evidență cu toate conturile și parolele
 - [ ] Am înțeles notița despre declarația unică (evidență din ziua 1)
 
-**Următorul pas:** Modulul 11 — planul complet de 30 de zile.
+**Următorul pas:** Modulul 12 — planul complet de 30 de zile.

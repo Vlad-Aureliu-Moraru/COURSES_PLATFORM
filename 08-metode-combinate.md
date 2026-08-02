@@ -1,12 +1,12 @@
 ---
-title: "Modulul 8 — Metode Combinate: Calea Spre $5–10/zi"
+title: "Modulul 9 — Metode Combinate: Calea Spre $5–10/zi"
 order: 8
 est_time: "45 min"
 free: false
 description: "3–4 platforme în paralel, organizarea timpului și fișa de urmărire."
 ---
 
-# Modulul 8 — Metode Combinate: Calea Spre $5–10/zi
+# Modulul 9 — Metode Combinate: Calea Spre $5–10/zi
 
 > Niciun modul separat nu te duce departe. Combinația face diferența: **o sursă activă de bază (micro-taskuri), una de sondaje (pe lângă), una pasivă (video-uri) și una de creștere (YouTube/TikTok/Fiverr).** Așa ajungi de la $1/zi la $5–10/zi.
 
@@ -101,7 +101,7 @@ După **2 săptămâni de test consecvent**, renunță la o platformă dacă:
 
 ---
 
-## Checklist Modulul 8
+## Checklist Modulul 9
 
 - [ ] Am o platformă de bază (micro-taskuri) care funcționează
 - [ ] Am o platformă de sondaje activă
@@ -111,4 +111,4 @@ După **2 săptămâni de test consecvent**, renunță la o platformă dacă:
 - [ ] Am ore fixe în program pentru munca online
 - [ ] Știu ce platformă renunță după 2 săptămâni de test
 
-**Următorul pas:** Modulul 9 — ce să eviți (ți salvează banii și conturile).
+**Următorul pas:** Modulul 10 — ce să eviți (ți salvează banii și conturile).

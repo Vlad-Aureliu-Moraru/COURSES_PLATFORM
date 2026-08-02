@@ -37,7 +37,6 @@ def create_checkout_session(user, course, success_url, cancel_url=''):
         success_url=success_url,
         cancel_url=cancel_url or settings.SITE_URL + '/pricing/',
         metadata={'user_id': user.id, 'course_id': course.id},
-        automatic_tax={'enabled': True},
     )
 
     payment, _ = Payment.objects.get_or_create(
