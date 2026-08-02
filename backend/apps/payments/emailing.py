@@ -25,7 +25,7 @@ def _wrap_html(title, content_html):
           <tr>
             <td style="padding:20px 32px 28px;border-top:1px solid #e2e8f0;">
               <p style="margin:0;font-size:12px;color:#64748b;">
-                Îți oferim garanție de 14 zile — dacă nu ți se pare util cursul, primești banii înapoi.<br>
+                BaniOnline — curs de bani online pentru începători.<br>
                 <a href="{settings.SITE_URL}" style="color:#4f46e5;">{settings.SITE_URL}</a>
               </p>
             </td>
@@ -81,36 +81,6 @@ def send_payment_confirmation_email(user, payment):
         f'<p style="margin:16px 0 0;font-size:15px;color:#334155;line-height:1.6;">'
         f'Ai acces instant la <strong>{course_title}</strong> — toate cele 12 module sunt deblocate.</p>'
         f'{_btn(f"{settings.SITE_URL}/curs", "Accesează cursul")}',
-    )
-
-    _send_html_email(email, subject, text_body, html_body)
-
-
-def send_refund_email(user, payment):
-    email = user.email
-    name = user.get_full_name() or user.email
-    amount = f'{payment.amount:.2f} {payment.currency.upper()}'
-
-    subject = 'Rambursare procesată — BaniOnline'
-    text_body = (
-        f'Salut, {name}!\n\n'
-        f'Rambursarea ta de {amount} a fost procesată.\n'
-        'Suma se va întoarce în contul din care ai plătit, de obicei în 5–10 zile lucrătoare.\n'
-        'Accesul la curs a fost revocat.\n\n'
-        f'Dacă ai întrebări, răspunde direct la acest email.\n\n'
-        'Echipa BaniOnline'
-    )
-
-    html_body = _wrap_html(
-        'Rambursare procesată',
-        f'<p style="margin:0;font-size:15px;color:#334155;line-height:1.6;">'
-        f'Salut, <strong>{name}</strong>!<br>'
-        f'Rambursarea ta de <strong>{amount}</strong> a fost procesată.</p>'
-        f'<p style="margin:16px 0 0;font-size:15px;color:#334155;line-height:1.6;">'
-        f'Suma se întoarce în contul din care ai plătit, de obicei în 5–10 zile lucrătoare. '
-        f'Accesul la curs a fost revocat.</p>'
-        f'<p style="margin:16px 0 0;font-size:15px;color:#334155;line-height:1.6;">'
-        f'Dacă ai întrebări, răspunde direct la acest email.</p>',
     )
 
     _send_html_email(email, subject, text_body, html_body)

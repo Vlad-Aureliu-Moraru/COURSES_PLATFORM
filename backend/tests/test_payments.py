@@ -59,6 +59,27 @@ def test_checkout_creates_pending_payment(db):
     assert payment.amount_cents == 799
 
 
+def test_checkout_enables_automatic_tax(db):
+    course = make_course()
+    user = make_user()
+    client = auth_client(user)
+
+    session = {
+        'id': 'cs_tax_1',
+        'url': 'https://checkout.stripe.com/c/pay/cs_tax_1',
+    }
+
+    with patch('apps.payments.services.stripe.checkout.Session.create', return_value=session) as mock:
+        response = client.post(
+            '/api/v1/payments/checkout/',
+            {'course': 'bani-online'},
+            format='json',
+        )
+
+    assert response.status_code == 200
+    assert mock.call_args.kwargs['automatic_tax'] == {'enabled': True}
+
+
 def test_webhook_rejects_bad_signature(db):
     client = APIClient()
     with patch('apps.payments.services.stripe.Webhook.construct_event', side_effect=Exception('bad sig')):
@@ -98,36 +119,6 @@ def test_webhook_completed_grants_access(db):
     payment.refresh_from_db()
     assert payment.status == 'paid'
     assert Enrollment.objects.filter(user=user, course=course, status='active').exists()
-
-
-def test_webhook_refund_revokes_access(db):
-    course = make_course()
-    user = make_user()
-    payment = Payment.objects.create(
-        user=user, course=course, stripe_session_id='cs_test_123', status='paid'
-    )
-    Enrollment.objects.create(user=user, course=course, status='active')
-
-    event = {
-        'type': 'checkout.session.expired',
-        'data': {'object': {'id': 'cs_test_123'}},
-    }
-
-    client = APIClient()
-    with patch(
-        'apps.payments.services.stripe.Webhook.construct_event', return_value=event
-    ):
-        response = client.post(
-            '/api/v1/payments/webhook/',
-            'payload',
-            content_type='application/json',
-            HTTP_STRIPE_SIGNATURE='t=1,v1=sig',
-        )
-
-    assert response.status_code == 200
-    payment.refresh_from_db()
-    assert payment.status == 'refunded'
-    assert Enrollment.objects.filter(user=user, course=course, status='active').exists() is False
 
 
 def test_payment_list_own_only(db):

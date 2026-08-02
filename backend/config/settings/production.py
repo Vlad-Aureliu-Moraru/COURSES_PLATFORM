@@ -1,4 +1,5 @@
 from decouple import config
+from dj_database_url import parse as db_url
 
 from .base import *
 
@@ -7,6 +8,15 @@ DEBUG = False
 SECRET_KEY = config('DJANGO_SECRET_KEY')
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+STORAGES = {
+    'default': {
+        'BACKEND': 'django.core.files.storage.FileSystemStorage',
+    },
+    'staticfiles': {
+        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+    },
+}
 
 _hosts_raw = config('DJANGO_ALLOWED_HOSTS', default='').strip()
 ALLOWED_HOSTS = _hosts_raw.split(',') if _hosts_raw else ['localhost']
@@ -23,7 +33,10 @@ _csrf_raw = config('CSRF_TRUSTED_ORIGINS', default='').strip()
 CSRF_TRUSTED_ORIGINS = _csrf_raw.split(',') if _csrf_raw else []
 
 DATABASES = {
-    'default': {
+    'default': db_url(
+        config('DATABASE_URL', default=''),
+        conn_max_age=60,
+    ) if config('DATABASE_URL', default='') else {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': config('POSTGRES_DB'),
         'USER': config('POSTGRES_USER'),

@@ -1,0 +1,10 @@
+name = "banionline"
+main = "dist"
+compatibility_date = "2026-08-02"
+
+[build]
+command = "npm run build"
+output = "dist"
+
+[env.production]
+PUBLIC_API_URL = "https://api.banionline.ro/api/v1"

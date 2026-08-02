@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Disallow: /login
+Disallow: /signup
+Disallow: /success
+
+Sitemap: https://banionline.ro/sitemap.xml

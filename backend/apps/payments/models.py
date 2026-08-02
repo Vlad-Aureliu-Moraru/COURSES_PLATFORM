@@ -6,7 +6,6 @@ class Payment(models.Model):
     STATUS_CHOICES = [
         ('pending', 'Pending'),
         ('paid', 'Paid'),
-        ('refunded', 'Refunded'),
     ]
 
     user = models.ForeignKey(

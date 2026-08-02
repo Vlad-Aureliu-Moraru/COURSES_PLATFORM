@@ -45,42 +45,6 @@ def run_action(admin_cls, model, request, queryset, action):
     return [m.message for m in request._messages]
 
 
-def test_refund_action_marks_refunded_and_revokes(db):
-    course = make_course()
-    user = make_user()
-    payment = Payment.objects.create(
-        user=user, course=course, stripe_session_id='cs_paid_1', status='paid'
-    )
-    Enrollment.objects.create(user=user, course=course, status='active')
-
-    request = make_admin_request(make_superuser())
-    run_action(PaymentAdmin, Payment, request, Payment.objects.filter(id=payment.id), 'refund_payments')
-
-    payment.refresh_from_db()
-    assert payment.status == 'refunded'
-    assert Enrollment.objects.get(user=user, course=course).status == 'revoked'
-    assert len(mail.outbox) == 1
-    assert 'Rambursare procesată' in mail.outbox[0].subject
-
-
-def test_refund_action_skips_non_paid(db):
-    course = make_course()
-    user = make_user()
-    pending = Payment.objects.create(
-        user=user, course=course, stripe_session_id='cs_pending', status='pending'
-    )
-
-    request = make_admin_request(make_superuser())
-    messages_list = run_action(
-        PaymentAdmin, Payment, request, Payment.objects.filter(id=pending.id), 'refund_payments'
-    )
-
-    pending.refresh_from_db()
-    assert pending.status == 'pending'
-    assert len(mail.outbox) == 0
-    assert any('sărit' in m for m in messages_list)
-
-
 def test_enrollment_grant_and_revoke_actions(db):
     course = make_course()
     user = make_user()

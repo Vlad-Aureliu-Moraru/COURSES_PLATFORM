@@ -41,6 +41,7 @@ MIDDLEWARE = [
     'csp.middleware.CSPMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -166,7 +167,6 @@ COURSE_CURRENCY = 'eur'
 
 STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY', default='')
 STRIPE_WEBHOOK_SECRET = config('STRIPE_WEBHOOK_SECRET', default='')
-STRIPE_PRICE_ID = config('STRIPE_PRICE_ID', default='')
 
 LOGGING = {
     'version': 1,

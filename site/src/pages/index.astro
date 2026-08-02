@@ -36,27 +36,6 @@ const faqs = [
     a: 'Citești tot în ~6 ore, dar metoda este să aplici în paralel. Planul de 30 de zile îți arată exact ce să faci în fiecare zi.',
   },
 ];
-
-const testimonials = [
-  {
-    name: 'Ion',
-    role: 'Începător',
-    text: 'Am început cu ghidul gratuit și în prima săptămână am făcut primii $5. Simplu și fără promisiuni false.',
-    placeholder: true,
-  },
-  {
-    name: 'Maria',
-    role: 'Studentă',
-    text: 'Mie mi-a plăcut că arată exact ce să faci, pas cu pas, fără teoria inutilă din alte cursuri.',
-    placeholder: true,
-  },
-  {
-    name: 'Andrei',
-    role: 'Începător',
-    text: 'Am testat metodele din Modulul 2. Funcționează. Nu te îmbogățești, dar banii chiar vin.',
-    placeholder: true,
-  },
-];
 ---
 
 <Layout
@@ -97,7 +76,6 @@ const testimonials = [
 
       <div class="mx-auto mt-7 flex max-w-xl flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-slate-500">
         <span class="inline-flex items-center gap-1.5"><span class="text-emerald-600">✓</span> Acces instant</span>
-        <span class="inline-flex items-center gap-1.5"><span class="text-emerald-600">✓</span> Garanție 14 zile</span>
         <span class="inline-flex items-center gap-1.5"><span class="text-emerald-600">✓</span> Fără abonament</span>
       </div>
     </div>
@@ -181,32 +159,6 @@ const testimonials = [
   </section>
 
   <section class="mx-auto w-full max-w-6xl px-5 py-20 sm:px-8">
-    <div class="mb-12 text-center">
-      <p class="mb-3 text-sm font-semibold uppercase tracking-wider text-brand-600">Ce spun cursanții</p>
-      <h2 class="font-sans text-3xl font-bold tracking-tight text-ink sm:text-4xl">Rezultate reale, așteptări realiste</h2>
-    </div>
-    <div class="grid gap-6 sm:grid-cols-3">
-      {testimonials.map((t) => (
-        <figure class="flex flex-col rounded-xl border border-slate-200 bg-white p-6 shadow-soft">
-          <div class="mb-3 flex gap-0.5 text-amber-400" aria-label="5 din 5 stele">
-            {'★★★★★'.split('').map((s, i) => <span key={i}>{s}</span>)}
-          </div>
-          <blockquote class="flex-1 text-sm leading-relaxed text-slate-600">„{t.text}”</blockquote>
-          <figcaption class="mt-5 flex items-center gap-3">
-            <span class="flex h-10 w-10 items-center justify-center rounded-full bg-brand-100 font-sans text-sm font-bold text-brand-700">
-              {t.name[0]}
-            </span>
-            <div>
-              <p class="font-sans text-sm font-semibold text-ink">{t.name}</p>
-              <p class="text-xs text-slate-400">{t.role}</p>
-            </div>
-          </figcaption>
-        </figure>
-      ))}
-    </div>
-  </section>
-
-  <section class="mx-auto w-full max-w-6xl px-5 py-20 sm:px-8">
     <div class="mx-auto max-w-lg">
       <div class="mb-10 text-center">
         <p class="mb-3 text-sm font-semibold uppercase tracking-wider text-brand-600">Preț</p>
@@ -214,7 +166,7 @@ const testimonials = [
         <p class="mt-3 text-slate-600">Mai puțin decât o pizza. Cu potențialul de a-ți aduce primii $1–5 pe zi.</p>
       </div>
       <PricingCard price="€7.99" />
-      <p class="mt-4 text-center text-xs text-slate-400">Plată securizată prin Stripe · Garanție de rambursare 14 zile</p>
+      <p class="mt-4 text-center text-xs text-slate-400">Plată securizată prin Stripe</p>
     </div>
   </section>
 

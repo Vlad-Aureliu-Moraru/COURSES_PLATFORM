@@ -73,28 +73,6 @@ def test_payment_completed_sends_confirmation_email(db):
     assert Enrollment.objects.filter(user=user, course=course, status='active').exists()
 
 
-def test_payment_refund_sends_refund_email(db):
-    course = make_course()
-    user = make_user()
-    Payment.objects.create(
-        user=user, course=course, stripe_session_id='cs_test_123', status='paid'
-    )
-    Enrollment.objects.create(user=user, course=course, status='active')
-
-    response = webhook_event({
-        'type': 'checkout.session.expired',
-        'data': {'object': {'id': 'cs_test_123'}},
-    })
-
-    assert response.status_code == 200
-    assert len(mail.outbox) == 1
-    sent = mail.outbox[0]
-    assert sent.to == ['buyer@test.com']
-    assert 'Rambursare procesată' in sent.subject
-    assert '7.99 EUR' in sent.body
-    assert Enrollment.objects.filter(user=user, course=course, status='active').exists() is False
-
-
 def test_email_failure_does_not_break_webhook(db):
     course = make_course()
     user = make_user()

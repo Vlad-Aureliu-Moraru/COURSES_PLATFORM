@@ -1,43 +1,55 @@
-# Astro Starter Kit: Minimal
+# BaniOnline — Frontend (site)
+
+Site-ul static al cursului **BaniOnline**, construit cu [Astro](https://astro.build)
+și Tailwind CSS v4, deployat pe Cloudflare Pages.
+
+## Cerințe
+
+- Node.js >= 22.12
+
+## Dezvoltare
 
 ```sh
-npm create astro@latest -- --template minimal
+npm install
+npm run dev        # server de dezvoltare la http://localhost:4321
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Configurația locală merge în `.env` (vezi `.env.example`):
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```sh
+PUBLIC_API_URL=http://localhost:8000/api/v1
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Build
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+```sh
+npm run build      # produce dist/ (folosit de Cloudflare Pages)
+npm run preview    # previzualizează build-ul
+```
 
-Any static assets, like images, can be placed in the `public/` directory.
+Build-ul în mod production încarcă automat `.env.production` (ruta API-ului real):
 
-## 🧞 Commands
+```sh
+PUBLIC_API_URL=https://api.banionline.ro/api/v1
+```
 
-All commands are run from the root of the project, from a terminal:
+> `.env` și `.env.production` sunt ignorate de git. La deploy, Cloudflare Pages
+> injectează `PUBLIC_API_URL` (via variabile de mediu sau `wrangler.toml`
+> `[env.production]`) — verifică că ruta API-ului din build este cea de producție.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## Structură
 
-## 👀 Want to learn more?
+- `src/pages/` — rutele site-ului (`/`, `/curs/…`, `/blog`, `/pricing`,
+  `/login`, `/signup`, `/success`, `/termeni`, `/privacy`, `/afiliati`, `404`)
+- `src/content/` — colecțiile de conținut (modulele cursului, fișiere `.md` din rădăcină)
+- `src/components/` — componente UI (Navbar, Footer, PricingCard, ModuleGrid ș.a.)
+- `src/lib/` — logica client (API client, gating lecții)
+- `public/` — fișiere statice (favicon, robots.txt, sitemap.xml, og.svg)
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Deploy
+
+```sh
+npx wrangler pages deploy dist --project-name banionline
+```
+
+Sau cu variabile de mediu definite în `wrangler.toml` / dashboard-ul Cloudflare Pages.
