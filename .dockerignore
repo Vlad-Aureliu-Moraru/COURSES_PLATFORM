@@ -1,0 +1,12 @@
+site/
+.git/
+.venv/
+node_modules/
+**/__pycache__/
+*.py[cod]
+*.log
+backend/.env
+backend/.env.live
+backend/staticfiles/
+backend/media/
+backend/db.sqlite3

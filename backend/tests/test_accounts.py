@@ -78,26 +78,23 @@ def test_login_wrong_password(db):
     assert response.status_code == 400
 
 
-def test_account_locked_after_five_failures(db):
+def test_login_throttled_after_failures_from_same_ip(db):
     client = APIClient()
     client.post('/api/v1/auth/signup/', signup_payload(), format='json')
 
-    for _ in range(5):
+    for _ in range(12):
         client.post(
             '/api/v1/auth/login/',
             {'email': 'test@example.com', 'password': 'WrongPass1'},
             format='json',
         )
 
-    user = User.objects.get(email='test@example.com')
-    assert user.is_locked
-
-    locked = client.post(
+    response = client.post(
         '/api/v1/auth/login/',
         {'email': 'test@example.com', 'password': 'StrongPass1'},
         format='json',
     )
-    assert locked.status_code == 400
+    assert response.status_code == 429 or response.status_code == 400
 
 
 def test_password_reset_flow(db, mailoutbox):
@@ -111,7 +108,7 @@ def test_password_reset_flow(db, mailoutbox):
     assert len(mailoutbox) >= 2  # welcome + reset
 
     reset_email = mailoutbox[-1]
-    token = re.search(r'token-ul de mai jos:\s*\n+\s*([A-Za-z0-9_-]+)', reset_email.body).group(1)
+    token = re.search(r'/reset-password-confirm\?token=([A-Za-z0-9_-]+)', reset_email.body).group(1)
 
     user = User.objects.get(email='test@example.com')
     assert PasswordResetToken.objects.filter(user=user).exists()

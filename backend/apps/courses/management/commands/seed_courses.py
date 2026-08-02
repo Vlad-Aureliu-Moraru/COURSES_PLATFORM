@@ -35,7 +35,8 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS(f'{"Created" if created else "Found"} course: {course.slug}'))
 
         for path in files:
-            frontmatter = self._parse_frontmatter(path)
+            text = path.read_text(encoding='utf-8')
+            frontmatter, body = self._split_frontmatter(text)
             slug = path.stem  # e.g. "02-micro-taskuri"
             lesson, lesson_created = Lesson.objects.update_or_create(
                 course=course,
@@ -46,6 +47,7 @@ class Command(BaseCommand):
                     'est_time': frontmatter.get('est_time', ''),
                     'is_free': frontmatter.get('free', 'false').strip().lower() == 'true',
                     'is_published': True,
+                    'content': body,
                 },
             )
             status = 'Created' if lesson_created else 'Updated'
@@ -53,13 +55,16 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.SUCCESS(f'Done. {len(files)} lessons in course.'))
 
-    def _parse_frontmatter(self, path):
-        text = path.read_text(encoding='utf-8')
-        match = re.match(r'^---\s*\n(.*?)\n---', text, re.DOTALL)
+    def _split_frontmatter(self, text):
+        match = re.match(r'^---\s*\n(.*?)\n---\s*\n?(.*)$', text, re.DOTALL)
         if not match:
-            return {}
+            return {}, text.strip()
+        frontmatter = self._parse_frontmatter(match.group(1))
+        return frontmatter, match.group(2).strip()
+
+    def _parse_frontmatter(self, frontmatter_text):
         result = {}
-        for key, value in re.findall(r'^(\w+):\s*(.+)$', match.group(1), re.MULTILINE):
+        for key, value in re.findall(r'^(\w+):\s*(.+)$', frontmatter_text, re.MULTILINE):
             value = value.strip().strip('"\'')
             result[key] = value
         return result

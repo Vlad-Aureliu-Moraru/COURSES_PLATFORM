@@ -59,7 +59,7 @@ def test_payment_completed_sends_confirmation_email(db):
 
     response = webhook_event({
         'type': 'checkout.session.completed',
-        'data': {'object': {'id': 'cs_test_123'}},
+        'data': {'object': {'id': 'cs_test_123', 'payment_status': 'paid', 'total_details': {'amount_tax': 0}}},
     })
 
     assert response.status_code == 200
@@ -86,7 +86,7 @@ def test_email_failure_does_not_break_webhook(db):
     ):
         response = webhook_event({
             'type': 'checkout.session.completed',
-            'data': {'object': {'id': 'cs_test_123'}},
+            'data': {'object': {'id': 'cs_test_123', 'payment_status': 'paid', 'total_details': {'amount_tax': 0}}},
         })
 
     assert response.status_code == 200

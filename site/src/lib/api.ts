@@ -124,6 +124,55 @@ export async function getLesson(slug: string): Promise<{ is_unlocked: boolean } 
   return res.json();
 }
 
+export async function getLessonContent(slug: string): Promise<string | null> {
+  const res = await apiFetch(`/lessons/${slug}/content/`);
+  if (res.status === 403 || res.status === 401) return null;
+  if (!res.ok) return null;
+  const data = await res.json();
+  return data.content ?? null;
+}
+
+export async function checkPaymentStatus(sessionId: string): Promise<boolean> {
+  const res = await apiFetch(`/payments/status/?session_id=${encodeURIComponent(sessionId)}`);
+  if (!res.ok) return false;
+  const data = await res.json();
+  return Boolean(data.paid);
+}
+
+export async function requestPasswordReset(email: string): Promise<void> {
+  const res = await apiFetch('/auth/password/reset/', {
+    method: 'POST',
+    body: { email },
+  });
+  if (!res.ok) {
+    let detail = 'Nu am putut trimite link-ul de resetare.';
+    try {
+      const data = await res.json();
+      detail = data.detail ?? data.email?.[0] ?? JSON.stringify(data);
+    } catch {
+      /* keep default */
+    }
+    throw new Error(detail);
+  }
+}
+
+export async function confirmPasswordReset(token: string, password: string): Promise<void> {
+  const res = await apiFetch('/auth/password/reset/confirm/', {
+    method: 'POST',
+    body: { token, new_password: password, new_password2: password },
+  });
+  if (!res.ok) {
+    let detail = 'Resetarea a eșuat. Verifică link-ul și încearcă din nou.';
+    try {
+      const data = await res.json();
+      detail = data.detail ?? data.token?.[0] ?? data.new_password?.[0] ?? JSON.stringify(data);
+    } catch {
+      /* keep default */
+    }
+    throw new Error(detail);
+  }
+}
+
 export async function createCheckout(): Promise<string> {
   const res = await apiFetch('/payments/checkout/', {
     method: 'POST',

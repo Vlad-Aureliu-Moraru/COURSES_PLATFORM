@@ -15,6 +15,7 @@ interface Props {
   description?: string;
   ogType?: string;
   canonical?: string;
+  noindex?: boolean;
 }
 
 const {
@@ -22,6 +23,7 @@ const {
   description = 'Curs practic de bani online pentru începători: metode simple, verificate, de la €1–5 pe zi.',
   ogType = 'website',
   canonical,
+  noindex = false,
 } = Astro.props;
 const { pathname } = Astro.url;
 
@@ -53,6 +55,7 @@ const structuredData = {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={pageUrl} />
 

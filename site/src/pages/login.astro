@@ -39,6 +39,12 @@ const next = Astro.url.searchParams.get('next') ?? '/curs';
 
       <p id="form-error" class="hidden rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"></p>
 
+      <div class="flex justify-end">
+        <a href="/reset-password" class="text-sm font-medium text-brand-600 transition-colors hover:text-brand-700">
+          Ai uitat parola?
+        </a>
+      </div>
+
       <button
         type="submit"
         class="w-full rounded-lg bg-brand-600 px-6 py-3 text-base font-semibold text-white shadow-lift transition-all hover:-translate-y-0.5 hover:bg-brand-700"
@@ -57,7 +63,10 @@ const next = Astro.url.searchParams.get('next') ?? '/curs';
 <script>
   import { login } from '../lib/api';
 
-  const next = new URLSearchParams(window.location.search).get('next') ?? '/curs';
+  const nextParam = new URLSearchParams(window.location.search).get('next');
+  const next = nextParam && nextParam.startsWith('/') && !nextParam.startsWith('//')
+    ? nextParam
+    : '/curs';
   const form = document.getElementById('login-form') as HTMLFormElement | null;
   const errorEl = document.getElementById('form-error') as HTMLParagraphElement | null;
 

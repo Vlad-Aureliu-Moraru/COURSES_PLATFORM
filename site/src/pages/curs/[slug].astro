@@ -23,7 +23,11 @@ const isFreeModule = Boolean(module.data.free);
 const shortTitle = module.data.title?.replace(/^Modulul\s+(Bonus\s+)?(\d+\s+—\s+)?/, '') ?? module.id;
 ---
 
-<Layout title={`${module.data.title ?? module.id} — BaniOnline`} description={module.data.description}>
+<Layout
+  title={`${module.data.title ?? module.id} — BaniOnline`}
+  description={module.data.description}
+  noindex={!isFreeModule}
+>
   <div class="mx-auto w-full max-w-6xl px-5 py-10 sm:px-8">
     <nav class="mb-6 flex items-center gap-2 text-sm text-slate-400" aria-label="Breadcrumb">
       <a href="/" class="transition-colors hover:text-brand-600">Acasă</a>
@@ -55,11 +59,14 @@ const shortTitle = module.data.title?.replace(/^Modulul\s+(Bonus\s+)?(\d+\s+—\
           </>
         ) : (
           <>
-            <div class="mb-6 flex flex-wrap items-center gap-3" data-gated-content>
-              <Badge tone="slate">≈ {module.data.est_time}</Badge>
+            <div class="mb-6 flex flex-wrap items-center gap-3">
+              {module.data.est_time && <Badge tone="slate">≈ {module.data.est_time}</Badge>}
+              <Badge tone="slate">Inclus în cursul complet</Badge>
             </div>
-            <div class="prose-course" data-gated-content>
-              <rendered.Content />
+            <div class="prose-course hidden" data-lesson-content></div>
+            <div class="mt-4 flex items-center justify-center gap-2 py-6 text-sm text-slate-400" data-lesson-loading>
+              <span class="inline-block h-4 w-4 animate-spin rounded-full border-2 border-brand-200 border-t-brand-600"></span>
+              Se încarcă lecția…
             </div>
           </>
         )}
@@ -94,7 +101,7 @@ const shortTitle = module.data.title?.replace(/^Modulul\s+(Bonus\s+)?(\d+\s+—\
         </div>
 
         {!isFreeModule && (
-          <div data-gated-paywall class="rounded-2xl border border-slate-200 bg-white p-10 text-center">
+          <div data-gated-paywall class="mt-8 rounded-2xl border border-slate-200 bg-white p-10 text-center">
             <div class="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100 text-3xl">🔒</div>
             <h1 class="font-sans text-2xl font-bold text-ink">Acest modul face parte din cursul complet</h1>
             <p class="mx-auto mt-3 max-w-md text-slate-600">
@@ -120,22 +127,32 @@ const shortTitle = module.data.title?.replace(/^Modulul\s+(Bonus\s+)?(\d+\s+—\
 </Layout>
 
 <script>
-  import { getLesson, startCheckout } from '../../lib/api';
+  import { getLesson, getLessonContent, startCheckout } from '../../lib/api';
 
   const slug = window.location.pathname.split('/').filter(Boolean).pop() ?? '';
-  const contentEls = document.querySelectorAll<HTMLElement>('[data-gated-content]');
+  const contentEl = document.querySelector<HTMLElement>('[data-lesson-content]');
+  const loadingEl = document.querySelector<HTMLElement>('[data-lesson-loading]');
+  const navEl = document.querySelector<HTMLElement>('[data-gated-content]');
   const paywallEl = document.querySelector<HTMLElement>('[data-gated-paywall]');
 
-  if (paywallEl && contentEls.length) {
-    contentEls.forEach((el) => el.classList.add('hidden'));
-  }
+  if (navEl) navEl.classList.add('hidden');
+  if (paywallEl) paywallEl.classList.add('hidden');
 
   (async () => {
     const lesson = await getLesson(slug);
     if (lesson?.is_unlocked) {
-      contentEls.forEach((el) => el.classList.remove('hidden'));
+      const html = await getLessonContent(slug);
+      if (contentEl && html) {
+        contentEl.innerHTML = html;
+        contentEl.classList.remove('hidden');
+      }
+      navEl?.classList.remove('hidden');
       paywallEl?.classList.add('hidden');
+    } else {
+      paywallEl?.classList.remove('hidden');
+      navEl?.classList.remove('hidden');
     }
+    if (loadingEl) loadingEl.remove();
   })();
 
   document.querySelectorAll<HTMLElement>('[data-checkout]').forEach((btn) => {

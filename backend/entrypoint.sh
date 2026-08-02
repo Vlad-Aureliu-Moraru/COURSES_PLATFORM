@@ -8,10 +8,12 @@ if [ "$(id -u)" = "0" ]; then
     mkdir -p /app/staticfiles /app/media
     chown -R appuser:appuser /app/staticfiles /app/media
     python manage.py migrate --noinput --fake-initial
+    python manage.py seed_courses --path /app/course-content
     python manage.py collectstatic --noinput --clear
     exec gosu appuser "$@"
 fi
 
 python manage.py migrate --noinput --fake-initial
+python manage.py seed_courses --path /app/course-content
 python manage.py collectstatic --noinput --clear
 exec "$@"

@@ -17,6 +17,7 @@ class Payment(models.Model):
     )
     stripe_session_id = models.CharField(max_length=200, unique=True, blank=True)
     amount_cents = models.PositiveIntegerField(default=settings.COURSE_PRICE_CENTS)
+    tax_cents = models.PositiveIntegerField(default=0)
     currency = models.CharField(max_length=3, default=settings.COURSE_CURRENCY)
     status = models.CharField(
         max_length=10, choices=STATUS_CHOICES, default='pending'
@@ -34,6 +35,10 @@ class Payment(models.Model):
     @property
     def amount(self):
         return self.amount_cents / 100
+
+    @property
+    def total(self):
+        return (self.amount_cents + self.tax_cents) / 100
 
     def __str__(self):
         return f'Payment {self.id} — {self.user_id} ({self.status})'

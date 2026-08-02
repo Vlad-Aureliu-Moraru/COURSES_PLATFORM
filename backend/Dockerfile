@@ -2,7 +2,7 @@ FROM python:3.12-slim-bookworm AS builder
 
 WORKDIR /app
 
-COPY requirements.txt .
+COPY backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 
@@ -18,7 +18,11 @@ WORKDIR /app
 COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
 COPY --from=builder /usr/local/bin /usr/local/bin
 
-COPY . .
+COPY backend/ ./
+COPY backend/entrypoint.sh ./entrypoint.sh
+COPY [0-9][0-9]-*.md /app/course-content/
+
+RUN chmod +x /app/entrypoint.sh
 
 RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
 

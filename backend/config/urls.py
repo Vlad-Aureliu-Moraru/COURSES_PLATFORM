@@ -5,6 +5,7 @@ from drf_spectacular.views import (
     SpectacularRedocView,
     SpectacularSwaggerView,
 )
+from rest_framework.permissions import IsAdminUser
 
 api_v1 = [
     path('auth/', include('apps.accounts.urls')),
@@ -12,9 +13,21 @@ api_v1 = [
     path('lessons/<slug:slug>/', include('apps.courses.lesson_urls')),
     path('payments/', include('apps.payments.urls')),
     path('health/', include('apps.health.urls')),
-    path('schema/', SpectacularAPIView.as_view(), name='schema'),
-    path('docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
-    path('redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+    path(
+        'schema/',
+        SpectacularAPIView.as_view(permission_classes=[IsAdminUser]),
+        name='schema',
+    ),
+    path(
+        'docs/',
+        SpectacularSwaggerView.as_view(url_name='schema', permission_classes=[IsAdminUser]),
+        name='swagger-ui',
+    ),
+    path(
+        'redoc/',
+        SpectacularRedocView.as_view(url_name='schema', permission_classes=[IsAdminUser]),
+        name='redoc',
+    ),
 ]
 
 urlpatterns = [

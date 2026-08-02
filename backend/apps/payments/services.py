@@ -66,13 +66,16 @@ def handle_webhook_event(payload, sig):
 
 
 def _mark_paid(session):
+    if session.get('payment_status') != 'paid':
+        return
     payment = Payment.objects.filter(
         stripe_session_id=session['id'], status='pending'
     ).first()
     if payment is None:
         return
     payment.status = 'paid'
-    payment.save(update_fields=['status', 'updated_at'])
+    payment.tax_cents = session.get('total_details', {}).get('amount_tax', 0) or 0
+    payment.save(update_fields=['status', 'tax_cents', 'updated_at'])
     if payment.course_id:
         grant_access(payment.user, payment.course)
     try:

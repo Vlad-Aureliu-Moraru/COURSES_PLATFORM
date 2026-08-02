@@ -21,6 +21,18 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://banionline.ro/curs/00-ghid-rapid/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://banionline.ro/curs/01-introducere/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://banionline.ro/curs/09-ce-sa-eviti/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://banionline.ro/termeni/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
@@ -34,53 +46,5 @@
     <loc>https://banionline.ro/afiliati/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
-  </url>
-  <url>
-    <loc>https://banionline.ro/curs/00-ghid-rapid/</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://banionline.ro/curs/01-introducere/</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://banionline.ro/curs/02-micro-taskuri/</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://banionline.ro/curs/03-sondaje-platite/</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://banionline.ro/curs/04-reclame-reward-apps/</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://banionline.ro/curs/05-tiktok-monetizare/</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://banionline.ro/curs/06-youtube-monetizare/</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://banionline.ro/curs/07-platforme-extra/</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://banionline.ro/curs/08-metode-combinate/</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://banionline.ro/curs/09-ce-sa-eviti/</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://banionline.ro/curs/10-bonus-setup/</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://banionline.ro/curs/11-plan-30-zile/</loc>
-    <priority>0.8</priority>
   </url>
 </urlset>

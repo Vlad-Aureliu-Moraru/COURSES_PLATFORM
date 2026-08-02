@@ -15,6 +15,8 @@ SITE_URL = config('SITE_URL', default='http://localhost:4321')
 CSRF_TRUSTED_ORIGINS = config(
     'CSRF_TRUSTED_ORIGINS', default='http://localhost:4321,http://localhost:8000'
 ).split(',')
+
+ADMIN_ALLOWED_IPS = config('ADMIN_ALLOWED_IPS', default='')
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024
 
 INSTALLED_APPS = [
@@ -32,7 +34,6 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'apps.accounts',
     'apps.courses',
-    'apps.orders',
     'apps.payments',
     'apps.health',
 ]
@@ -42,6 +43,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'apps.health.middleware.AdminIPAllowlistMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',

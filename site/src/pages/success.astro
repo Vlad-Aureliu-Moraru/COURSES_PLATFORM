@@ -13,6 +13,13 @@ import Layout from '../layouts/Layout.astro';
 
       <p id="status" class="mt-4 text-sm text-slate-500">Se activează accesul…</p>
 
+      <button
+        id="retry-btn"
+        class="mt-4 hidden rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-slate-400"
+      >
+        Reîncearcă
+      </button>
+
       <a
         href="/curs"
         id="go-curs"
@@ -21,25 +28,32 @@ import Layout from '../layouts/Layout.astro';
       >
         Mergi la curs
       </a>
+
+      <p class="mt-6 text-xs text-slate-400">
+        Ai o problemă cu accesul? Scrie-ne la
+        <a href="mailto:suport@banionline.ro" class="text-brand-600 transition-colors hover:text-brand-700">suport@banionline.ro</a>
+      </p>
     </div>
   </section>
 </Layout>
 
 <script>
-  import { getLesson, isAuthenticated } from '../lib/api';
+  import { isAuthenticated, checkPaymentStatus } from '../lib/api';
 
   const statusEl = document.getElementById('status');
   const goBtn = document.getElementById('go-curs') as HTMLAnchorElement | null;
+  const retryBtn = document.getElementById('retry-btn') as HTMLButtonElement | null;
 
-  async function checkUnlocked(): Promise<boolean> {
-    if (!isAuthenticated()) return false;
-    const lesson = await getLesson('02-micro-taskuri');
-    return Boolean(lesson?.is_unlocked);
+  const sessionId = new URLSearchParams(window.location.search).get('session_id') ?? '';
+
+  async function checkPaid(): Promise<boolean> {
+    if (!isAuthenticated() || !sessionId) return false;
+    return checkPaymentStatus(sessionId);
   }
 
-  (async () => {
-    for (let i = 0; i < 10; i++) {
-      if (await checkUnlocked()) {
+  async function poll(): Promise<void> {
+    for (let i = 0; i < 15; i++) {
+      if (await checkPaid()) {
         if (statusEl) statusEl.textContent = 'Acces activat. Poți începe imediat!';
         if (goBtn) {
           goBtn.setAttribute('aria-disabled', 'false');
@@ -49,10 +63,19 @@ import Layout from '../layouts/Layout.astro';
       }
       await new Promise((r) => setTimeout(r, 2000));
     }
-    if (statusEl) statusEl.textContent = 'Accesul se activează. Dacă durează prea mult, încearcă din nou în câteva minute.';
+    if (statusEl) statusEl.textContent = 'Accesul se activează în continuare. Dacă durează prea mult, încearcă din nou.';
+    if (retryBtn) retryBtn.classList.remove('hidden');
     if (goBtn) {
       goBtn.setAttribute('aria-disabled', 'false');
       goBtn.classList.remove('disabled:opacity-50');
     }
-  })();
+  }
+
+  retryBtn?.addEventListener('click', () => {
+    if (retryBtn) retryBtn.classList.add('hidden');
+    if (statusEl) statusEl.textContent = 'Se activează accesul…';
+    void poll();
+  });
+
+  void poll();
 </script>

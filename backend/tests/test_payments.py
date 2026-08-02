@@ -101,7 +101,7 @@ def test_webhook_completed_grants_access(db):
 
     event = {
         'type': 'checkout.session.completed',
-        'data': {'object': {'id': 'cs_test_123'}},
+        'data': {'object': {'id': 'cs_test_123', 'payment_status': 'paid', 'total_details': {'amount_tax': 0}}},
     }
 
     client = APIClient()

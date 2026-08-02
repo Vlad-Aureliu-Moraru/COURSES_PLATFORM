@@ -38,6 +38,7 @@ class SignupSerializer(serializers.ModelSerializer):
         fields = ['email', 'password', 'password2', 'first_name', 'last_name']
 
     def validate_email(self, value):
+        value = value.strip().lower()
         if User.objects.filter(email__iexact=value).exists():
             raise serializers.ValidationError('Există deja un cont cu acest email.')
         return value
@@ -62,6 +63,12 @@ class SignupSerializer(serializers.ModelSerializer):
 
 class EmailTokenObtainPairSerializer(TokenObtainPairSerializer):
     username_field = 'email'
+
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        token['email'] = user.email
+        return token
 
     def validate(self, attrs):
         authenticate_kwargs = {

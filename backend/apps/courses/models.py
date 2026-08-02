@@ -34,6 +34,7 @@ class Lesson(models.Model):
     est_time = models.CharField(max_length=50, blank=True)
     is_free = models.BooleanField(default=False)
     is_published = models.BooleanField(default=True)
+    content = models.TextField(blank=True)
 
     class Meta:
         db_table = 'lessons'
