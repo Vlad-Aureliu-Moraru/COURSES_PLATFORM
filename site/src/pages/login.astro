@@ -44,8 +44,9 @@ import Layout from '../layouts/Layout.astro';
       </div>
 
       <button
+        id="login-submit"
         type="submit"
-        class="w-full rounded-lg bg-brand-600 px-6 py-3 text-base font-semibold text-white shadow-lift transition-all hover:-translate-y-0.5 hover:bg-brand-700"
+        class="w-full rounded-lg bg-brand-600 px-6 py-3 text-base font-semibold text-white shadow-lift transition-all hover:-translate-y-0.5 hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0"
       >
         Intră în cont
       </button>
@@ -67,12 +68,24 @@ import Layout from '../layouts/Layout.astro';
     : '/curs';
   const form = document.getElementById('login-form') as HTMLFormElement | null;
   const errorEl = document.getElementById('form-error') as HTMLParagraphElement | null;
+  const submitBtn = document.getElementById('login-submit') as HTMLButtonElement | null;
+  const submitLabel = submitBtn?.textContent ?? '';
+
+  function setLoading(loading: boolean, label: string) {
+    if (!submitBtn) return;
+    submitBtn.disabled = loading;
+    submitBtn.setAttribute('aria-busy', String(loading));
+    submitBtn.innerHTML = loading
+      ? '<span class="inline-flex items-center justify-center gap-2"><span class="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white"></span>' + label + '</span>'
+      : label;
+  }
 
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = (form.elements.namedItem('email') as HTMLInputElement).value;
     const password = (form.elements.namedItem('password') as HTMLInputElement).value;
     if (errorEl) errorEl.classList.add('hidden');
+    setLoading(true, 'Se conectează…');
     try {
       await login(email, password);
       window.location.href = next;
@@ -81,6 +94,7 @@ import Layout from '../layouts/Layout.astro';
         errorEl.textContent = err instanceof Error ? err.message : 'Autentificare eșuată.';
         errorEl.classList.remove('hidden');
       }
+      setLoading(false, submitLabel);
     }
   });
 </script>

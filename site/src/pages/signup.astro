@@ -54,7 +54,7 @@ import Layout from '../layouts/Layout.astro';
       <button
         id="signup-submit"
         type="submit"
-        class="w-full rounded-lg bg-brand-600 px-6 py-3 text-base font-semibold text-white shadow-lift transition-all hover:-translate-y-0.5 hover:bg-brand-700"
+        class="w-full rounded-lg bg-brand-600 px-6 py-3 text-base font-semibold text-white shadow-lift transition-all hover:-translate-y-0.5 hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0"
       >
         Creează contul
       </button>
@@ -83,8 +83,9 @@ import Layout from '../layouts/Layout.astro';
           />
           <p id="otp-error" class="hidden rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"></p>
           <button
+            id="otp-submit"
             type="submit"
-            class="w-full rounded-lg bg-brand-600 px-6 py-3 text-base font-semibold text-white shadow-lift transition-all hover:-translate-y-0.5 hover:bg-brand-700"
+            class="w-full rounded-lg bg-brand-600 px-6 py-3 text-base font-semibold text-white shadow-lift transition-all hover:-translate-y-0.5 hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0"
           >
             Activează contul
           </button>
@@ -120,6 +121,19 @@ import Layout from '../layouts/Layout.astro';
   const otpError = document.getElementById('otp-error') as HTMLParagraphElement | null;
   const otpCode = document.getElementById('otp-code') as HTMLInputElement | null;
   const resendBtn = document.getElementById('resend-btn');
+  const signupSubmit = document.getElementById('signup-submit') as HTMLButtonElement | null;
+  const signupLabel = signupSubmit?.textContent ?? '';
+  const otpSubmit = document.getElementById('otp-submit') as HTMLButtonElement | null;
+  const otpLabel = otpSubmit?.textContent ?? '';
+
+  function setButtonLoading(btn: HTMLButtonElement | null, loading: boolean, label: string) {
+    if (!btn) return;
+    btn.disabled = loading;
+    btn.setAttribute('aria-busy', String(loading));
+    btn.innerHTML = loading
+      ? '<span class="inline-flex items-center justify-center gap-2"><span class="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white"></span>' + label + '</span>'
+      : label;
+  }
 
   let signupEmail = '';
 
@@ -136,6 +150,7 @@ import Layout from '../layouts/Layout.astro';
       return;
     }
     if (errorEl) errorEl.classList.add('hidden');
+    setButtonLoading(signupSubmit, true, 'Se trimite…');
     try {
       await signup(email, password);
       signupEmail = email;
@@ -148,6 +163,7 @@ import Layout from '../layouts/Layout.astro';
         errorEl.textContent = err instanceof Error ? err.message : 'Înregistrarea a eșuat.';
         errorEl.classList.remove('hidden');
       }
+      setButtonLoading(signupSubmit, false, signupLabel);
     }
   });
 
@@ -155,6 +171,7 @@ import Layout from '../layouts/Layout.astro';
     e.preventDefault();
     const code = (otpCode?.value ?? '').trim();
     if (otpError) otpError.classList.add('hidden');
+    setButtonLoading(otpSubmit, true, 'Se verifică…');
     try {
       await verifySignup(signupEmail, code);
       window.location.href = next;
@@ -163,6 +180,7 @@ import Layout from '../layouts/Layout.astro';
         otpError.textContent = err instanceof Error ? err.message : 'Codul este invalid sau expirat.';
         otpError.classList.remove('hidden');
       }
+      setButtonLoading(otpSubmit, false, otpLabel);
     }
   });
 
