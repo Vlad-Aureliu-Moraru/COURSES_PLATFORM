@@ -69,48 +69,70 @@ class PasswordResetToken(models.Model):
         return self.expires_at <= timezone.now()
 
 
-class EmailVerificationCode(models.Model):
-    CODE_TTL = timedelta(minutes=15)
-    CODE_LENGTH = 6
-
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='verification_codes'
-    )
-    code_hash = models.CharField(max_length=64, unique=True)
+class PendingSignup(models.Model):
+    email = models.EmailField(unique=True)
+    password_hash = models.CharField(max_length=128)
+    first_name = models.CharField(max_length=150, blank=True)
+    last_name = models.CharField(max_length=150, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    expires_at = models.DateTimeField()
 
     class Meta:
-        db_table = 'email_verification_codes'
+        db_table = 'pending_signups'
+
+    @classmethod
+    def create_or_replace(cls, email, password_hash, first_name='', last_name=''):
+        cls.objects.filter(email=email).delete()
+        return cls.objects.create(
+            email=email,
+            password_hash=password_hash,
+            first_name=first_name,
+            last_name=last_name,
+        )
+
+    @classmethod
+    def add_code(cls, pending):
+        code = cls.generate_code()
+        SignupCode.objects.create(
+            pending=pending,
+            code_hash=SignupCode.hash_code(code),
+            expires_at=timezone.now() + SignupCode.CODE_TTL,
+        )
+        return code
 
     @classmethod
     def generate_code(cls):
         return f'{random.SystemRandom().randint(0, 999999):06d}'
 
-    @classmethod
-    def create_for_user(cls, user):
-        cls.objects.filter(user=user).delete()
-        code = cls.generate_code()
-        return cls.objects.create(
-            user=user,
-            code_hash=cls.hash_code(code),
-            expires_at=timezone.now() + cls.CODE_TTL,
-        ), code
+
+class SignupCode(models.Model):
+    CODE_TTL = timedelta(minutes=15)
+
+    pending = models.ForeignKey(
+        PendingSignup, on_delete=models.CASCADE, related_name='codes'
+    )
+    code_hash = models.CharField(max_length=64)
+    created_at = models.DateTimeField(auto_now_add=True)
+    expires_at = models.DateTimeField()
+
+    class Meta:
+        db_table = 'signup_codes'
 
     @staticmethod
     def hash_code(code):
         return hashlib.sha256(code.encode()).hexdigest()
 
     @classmethod
-    def consume(cls, user, code):
-        instance = cls.objects.filter(user=user, code_hash=cls.hash_code(code)).first()
-        if instance is None:
-            return None
-        if instance.expires_at <= timezone.now():
-            instance.delete()
-            return None
-        return instance
-
-    @property
-    def is_expired(self):
-        return self.expires_at <= timezone.now()
+    def consume(cls, pending, code):
+        instances = cls.objects.filter(
+            pending=pending, code_hash=cls.hash_code(code)
+        )
+        if not instances.exists():
+            return False
+        instances.filter(expires_at__lte=timezone.now()).delete()
+        consumed = cls.objects.filter(
+            pending=pending, code_hash=cls.hash_code(code)
+        )
+        if not consumed.exists():
+            return False
+        consumed.delete()
+        return True

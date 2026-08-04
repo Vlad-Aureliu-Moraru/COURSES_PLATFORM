@@ -6,7 +6,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .emailing import send_password_reset_email, send_signup_otp_email, send_welcome_email
-from .models import EmailVerificationCode, PasswordResetToken, User
+from .models import PendingSignup, PasswordResetToken, User
 from .serializers import (
     ConfirmResetSerializer,
     EmailTokenObtainPairSerializer,
@@ -52,13 +52,14 @@ class SignupView(generics.CreateAPIView):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user = serializer.save()
-        _, code = EmailVerificationCode.create_for_user(user)
-        send_signup_otp_email(user.email, code)
+        serializer.save()
+        send_signup_otp_email(
+            serializer.validated_data['email'], serializer._code
+        )
         return Response(
             {
-                'detail': 'Contul a fost creat. Verifică-ți emailul pentru codul de activare.',
-                'email': user.email,
+                'detail': 'Am trimis un cod de verificare pe email. Confirmă-l pentru a-ți activa contul.',
+                'email': serializer.validated_data['email'],
             },
             status=status.HTTP_201_CREATED,
         )
@@ -93,9 +94,9 @@ class SignupResendView(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user = serializer.user
-        _, code = EmailVerificationCode.create_for_user(user)
-        send_signup_otp_email(user.email, code)
+        pending = serializer.pending
+        code = PendingSignup.add_code(pending)
+        send_signup_otp_email(pending.email, code)
         return Response(
             {'detail': 'Am trimis un cod nou de activare. Verifică-ți emailul.'},
             status=status.HTTP_200_OK,

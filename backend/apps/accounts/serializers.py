@@ -1,15 +1,13 @@
 import re
-from datetime import timedelta
 
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import CommonPasswordValidator
+from django.contrib.auth.hashers import make_password
 from django.utils import timezone
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from .models import EmailVerificationCode, PasswordResetToken, User
-
-INACTIVE_USER_TTL = timedelta(hours=24)
+from .models import PendingSignup, PasswordResetToken, SignupCode, User
 
 
 def validate_password_strength(value):
@@ -38,7 +36,7 @@ class SignupSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(write_only=True)
 
     class Meta:
-        model = User
+        model = PendingSignup
         fields = ['email', 'password', 'password2', 'first_name', 'last_name']
         extra_kwargs = {
             'email': {'validators': []},
@@ -46,15 +44,8 @@ class SignupSerializer(serializers.ModelSerializer):
 
     def validate_email(self, value):
         value = value.strip().lower()
-        existing = User.objects.filter(email__iexact=value).first()
-        if existing is not None:
-            if (
-                not existing.is_active
-                and existing.date_joined < timezone.now() - INACTIVE_USER_TTL
-            ):
-                existing.delete()
-            else:
-                raise serializers.ValidationError('Există deja un cont cu acest email.')
+        if User.objects.filter(email__iexact=value).exists():
+            raise serializers.ValidationError('Există deja un cont cu acest email.')
         return value
 
     def validate_password(self, value):
@@ -68,12 +59,10 @@ class SignupSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data.pop('password2')
         password = validated_data.pop('password')
-        validated_data['username'] = validated_data['email']
-        user = User(**validated_data)
-        user.is_active = False
-        user.set_password(password)
-        user.save()
-        return user
+        validated_data['password_hash'] = make_password(password)
+        pending = PendingSignup.create_or_replace(**validated_data)
+        self._code = PendingSignup.add_code(pending)
+        return pending
 
 
 class VerifySignupSerializer(serializers.Serializer):
@@ -81,37 +70,44 @@ class VerifySignupSerializer(serializers.Serializer):
     code = serializers.CharField(write_only=True)
 
     def validate_email(self, value):
-        self.user = User.objects.filter(email__iexact=value.strip().lower()).first()
-        if self.user is None:
+        self.pending = PendingSignup.objects.filter(
+            email__iexact=value.strip().lower()
+        ).first()
+        if self.pending is None:
             raise serializers.ValidationError('Contul nu există.')
         return value
 
     def validate(self, attrs):
-        if self.user.is_active:
+        if User.objects.filter(email__iexact=self.pending.email).exists():
             raise serializers.ValidationError('Contul este deja verificat.')
-        instance = EmailVerificationCode.consume(self.user, attrs['code'])
-        if instance is None:
+        if not SignupCode.consume(self.pending, attrs['code']):
             raise serializers.ValidationError({'code': 'Codul este invalid sau expirat.'})
-        attrs['_verification'] = instance
         return attrs
 
     def save(self):
-        self.user.is_active = True
-        self.user.failed_login_attempts = 0
-        self.user.locked_until = None
-        self.user.save(update_fields=['is_active', 'failed_login_attempts', 'locked_until'])
-        self.validated_data['_verification'].delete()
-        return self.user
+        pending = self.pending
+        user = User(
+            username=pending.email,
+            email=pending.email,
+            first_name=pending.first_name,
+            last_name=pending.last_name,
+            password=pending.password_hash,
+        )
+        user.save()
+        pending.delete()
+        return user
 
 
 class ResendSignupCodeSerializer(serializers.Serializer):
     email = serializers.EmailField()
 
     def validate_email(self, value):
-        self.user = User.objects.filter(email__iexact=value.strip().lower()).first()
-        if self.user is None:
+        self.pending = PendingSignup.objects.filter(
+            email__iexact=value.strip().lower()
+        ).first()
+        if self.pending is None:
             raise serializers.ValidationError('Contul nu există.')
-        if self.user.is_active:
+        if User.objects.filter(email__iexact=self.pending.email).exists():
             raise serializers.ValidationError('Contul este deja verificat.')
         return value
 

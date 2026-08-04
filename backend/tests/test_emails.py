@@ -51,7 +51,7 @@ def test_signup_sends_otp_email(db, mailoutbox):
 
 
 def test_signup_verify_sends_welcome_email(db, mailoutbox):
-    from apps.accounts.models import EmailVerificationCode, User
+    from apps.accounts.models import PendingSignup, SignupCode
 
     client = APIClient()
     client.post(
@@ -59,12 +59,12 @@ def test_signup_verify_sends_welcome_email(db, mailoutbox):
         {'email': 'new@test.com', 'password': 'StrongPass1', 'password2': 'StrongPass1'},
         format='json',
     )
-    user = User.objects.get(email='new@test.com')
-    instance = EmailVerificationCode.objects.get(user=user)
+    pending = PendingSignup.objects.get(email='new@test.com')
+    instance = SignupCode.objects.filter(pending=pending).first()
     code = next(
         f'{i:06d}'
         for i in range(1000000)
-        if EmailVerificationCode.hash_code(f'{i:06d}') == instance.code_hash
+        if SignupCode.hash_code(f'{i:06d}') == instance.code_hash
     )
     response = client.post(
         '/api/v1/auth/signup/verify/',
