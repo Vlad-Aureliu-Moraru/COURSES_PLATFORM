@@ -2,7 +2,6 @@ from rest_framework import generics, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.throttling import AnonRateThrottle
-from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .emailing import send_password_reset_email, send_signup_otp_email, send_welcome_email
@@ -75,12 +74,12 @@ class SignupVerifyView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
         send_welcome_email(user.email, user.get_full_name() or user.email)
-        refresh = RefreshToken.for_user(user)
+        token = EmailTokenObtainPairSerializer.get_token(user)
         return Response(
             {
                 'user': UserSerializer(user).data,
-                'access': str(refresh.access_token),
-                'refresh': str(refresh),
+                'access': str(token.access_token),
+                'refresh': str(token),
             },
             status=status.HTTP_200_OK,
         )

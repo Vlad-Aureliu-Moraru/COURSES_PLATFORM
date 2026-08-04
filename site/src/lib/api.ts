@@ -88,7 +88,7 @@ export async function login(email: string, password: string): Promise<void> {
     let detail = 'Autentificare eșuată.';
     try {
       const data = await res.json();
-      detail = data.detail ?? data.message ?? JSON.stringify(data);
+      detail = data.non_field_errors?.[0] ?? data.detail ?? data.message ?? JSON.stringify(data);
     } catch {
       /* keep default */
     }
@@ -107,7 +107,7 @@ export async function signup(email: string, password: string): Promise<void> {
     let detail = 'Înregistrarea a eșuat.';
     try {
       const data = await res.json();
-      detail = data.email?.[0] ?? data.password?.[0] ?? data.detail ?? JSON.stringify(data);
+      detail = data.email?.[0] ?? data.password?.[0] ?? data.non_field_errors?.[0] ?? data.detail ?? JSON.stringify(data);
     } catch {
       /* keep default */
     }
@@ -124,7 +124,7 @@ export async function verifySignup(email: string, code: string): Promise<void> {
     let detail = 'Codul este invalid sau expirat.';
     try {
       const data = await res.json();
-      detail = data.code?.[0] ?? data.email?.[0] ?? data.detail ?? JSON.stringify(data);
+      detail = data.code?.[0] ?? data.email?.[0] ?? data.non_field_errors?.[0] ?? data.detail ?? JSON.stringify(data);
     } catch {
       /* keep default */
     }
@@ -143,7 +143,7 @@ export async function resendSignupOtp(email: string): Promise<void> {
     let detail = 'Nu am putut retrimite codul.';
     try {
       const data = await res.json();
-      detail = data.email?.[0] ?? data.detail ?? JSON.stringify(data);
+      detail = data.email?.[0] ?? data.non_field_errors?.[0] ?? data.detail ?? JSON.stringify(data);
     } catch {
       /* keep default */
     }

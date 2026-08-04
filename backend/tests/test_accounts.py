@@ -90,6 +90,34 @@ def test_signup_verify_creates_user_returns_tokens(db, mailoutbox):
     assert 'Bine ai venit' in mailoutbox[-1].subject
 
 
+def test_signup_verify_token_has_email_claim(db, mailoutbox):
+    from rest_framework_simplejwt.tokens import AccessToken
+
+    client = APIClient()
+    code = signup_and_get_code(client)
+
+    verify = client.post(
+        '/api/v1/auth/signup/verify/',
+        {'email': 'test@example.com', 'code': code},
+        format='json',
+    )
+    assert verify.status_code == 200
+    token = AccessToken(verify.data['access'])
+    assert token['email'] == 'test@example.com'
+
+
+def test_login_wrong_credentials_returns_clean_error(db):
+    client = APIClient()
+    response = client.post(
+        '/api/v1/auth/login/',
+        {'email': 'nobody@test.com', 'password': 'WrongPass1'},
+        format='json',
+    )
+    assert response.status_code == 400
+    assert 'non_field_errors' in response.data
+    assert 'Email sau parolă incorecte.' in response.data['non_field_errors'][0]
+
+
 def test_signup_verify_wrong_code_rejected(db):
     client = APIClient()
     client.post('/api/v1/auth/signup/', signup_payload(), format='json')
