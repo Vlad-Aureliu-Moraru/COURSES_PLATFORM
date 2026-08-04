@@ -1,8 +1,4 @@
-{
-	email noreply@banionline.ro
-}
-
-api.banionline.ro {
+:80 {
 	encode gzip
 	reverse_proxy api:8000
 }

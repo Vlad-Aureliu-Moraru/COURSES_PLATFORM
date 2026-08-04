@@ -26,7 +26,7 @@ def _wrap_html(title, content_html):
             <td style="padding:20px 32px 28px;border-top:1px solid #e2e8f0;">
               <p style="margin:0;font-size:12px;color:#64748b;">
                 BaniOnline — curs de bani online pentru începători.<br>
-                Ai întrebări? Scrie-ne la <a href="mailto:suport@banionline.ro" style="color:#4f46e5;">suport@banionline.ro</a>.<br>
+                Ai întrebări? Scrie-ne la <a href="mailto:pressync.app@gmail.com" style="color:#4f46e5;">pressync.app@gmail.com</a>.<br>
                 <a href="{settings.SITE_URL}" style="color:#4f46e5;">{settings.SITE_URL}</a>
               </p>
             </td>

@@ -55,7 +55,9 @@ EMAIL_PORT = config('EMAIL_PORT', cast=int)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
-DEFAULT_FROM_EMAIL = 'BaniOnline <noreply@banionline.ro>'
+DEFAULT_FROM_EMAIL = config(
+    'DEFAULT_FROM_EMAIL', default='BaniOnline <pressync.app@gmail.com>'
+)
 
 REST_FRAMEWORK['DEFAULT_THROTTLE_RATES'] = {
     'anon': '20/hour',

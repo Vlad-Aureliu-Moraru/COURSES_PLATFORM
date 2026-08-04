@@ -1,49 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://banionline.ro/</loc>
+    <loc>https://banionline.pages.dev/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://banionline.ro/curs/</loc>
+    <loc>https://banionline.pages.dev/curs/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://banionline.ro/blog/</loc>
+    <loc>https://banionline.pages.dev/blog/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://banionline.ro/pricing/</loc>
+    <loc>https://banionline.pages.dev/pricing/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://banionline.ro/curs/00-ghid-rapid/</loc>
+    <loc>https://banionline.pages.dev/curs/00-ghid-rapid/</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://banionline.ro/curs/01-introducere/</loc>
+    <loc>https://banionline.pages.dev/curs/01-introducere/</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://banionline.ro/curs/09-ce-sa-eviti/</loc>
+    <loc>https://banionline.pages.dev/curs/09-ce-sa-eviti/</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://banionline.ro/termeni/</loc>
+    <loc>https://banionline.pages.dev/termeni/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>
   <url>
-    <loc>https://banionline.ro/privacy/</loc>
+    <loc>https://banionline.pages.dev/privacy/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>
   <url>
-    <loc>https://banionline.ro/afiliati/</loc>
+    <loc>https://banionline.pages.dev/afiliati/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>

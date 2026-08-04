@@ -5,4 +5,4 @@ Disallow: /login
 Disallow: /signup
 Disallow: /success
 
-Sitemap: https://banionline.ro/sitemap.xml
+Sitemap: https://banionline.pages.dev/sitemap.xml
