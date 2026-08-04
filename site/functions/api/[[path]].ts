@@ -8,6 +8,7 @@ export async function onRequest(context) {
   const headers = new Headers(request.headers);
   headers.set('Host', 'banionline.pages.dev');
   headers.set('X-Forwarded-Proto', 'https');
+  headers.set('X-Real-IP', request.headers.get('CF-Connecting-IP') ?? '');
   headers.set('X-Forwarded-For', request.headers.get('CF-Connecting-IP') ?? '');
 
   const init = {

@@ -22,7 +22,12 @@ class AdminIPAllowlistMiddleware:
 
     @staticmethod
     def _client_ip(request):
+        # X-Real-IP is set by the Cloudflare Pages function from CF-Connecting-IP,
+        # so it always holds the true client address regardless of proxy hops.
+        real_ip = request.META.get('HTTP_X_REAL_IP', '').strip()
+        if real_ip:
+            return real_ip
         xff = request.META.get('HTTP_X_FORWARDED_FOR', '')
         if xff:
-            return xff.split(',')[0].strip()
+            return xff.strip().split(',')[-1].strip()
         return request.META.get('REMOTE_ADDR', '')
