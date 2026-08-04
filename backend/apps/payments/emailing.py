@@ -1,5 +1,8 @@
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
+from structlog import get_logger
+
+logger = get_logger(__name__)
 
 
 def _wrap_html(title, content_html):
@@ -56,7 +59,10 @@ def _send_html_email(email, subject, text_body, html_body):
         to=[email],
     )
     message.attach_alternative(html_body, 'text/html')
-    message.send()
+    try:
+        message.send(fail_silently=False)
+    except Exception:
+        logger.exception('email_send_failed', to=email, subject=subject)
 
 
 def send_payment_confirmation_email(user, payment):

@@ -1,4 +1,4 @@
-const BACKEND = 'http://167.172.45.10';
+const BACKEND = 'http://167.172.45.10.nip.io';
 
 export async function onRequest(context) {
   const { request } = context;

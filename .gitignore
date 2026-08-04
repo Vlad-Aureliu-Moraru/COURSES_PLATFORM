@@ -4,3 +4,4 @@
 # Environment / secrets
 .env
 .env.live
+session-ses_*.md

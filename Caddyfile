@@ -1,4 +1,7 @@
 :80 {
 	encode gzip
-	reverse_proxy api:8000
+	reverse_proxy api:8000 {
+		header_up Host banionline.pages.dev
+		header_up X-Forwarded-Proto https
+	}
 }
