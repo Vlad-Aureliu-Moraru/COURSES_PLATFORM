@@ -61,6 +61,8 @@ REST_FRAMEWORK['DEFAULT_THROTTLE_RATES'] = {
     'anon': '20/hour',
     'user': '1000/hour',
     'signup': '2/min',
+    'signup_verify': '10/min',
+    'signup_resend': '2/min',
     'login': '5/min',
     'checkout': '10/min',
     'payment': '10/min',

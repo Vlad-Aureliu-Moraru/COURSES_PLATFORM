@@ -107,7 +107,24 @@ export async function signup(email: string, password: string): Promise<void> {
     let detail = 'Înregistrarea a eșuat.';
     try {
       const data = await res.json();
-      detail = data.email?.[0] ?? data.password?.[0] ?? JSON.stringify(data);
+      detail = data.email?.[0] ?? data.password?.[0] ?? data.detail ?? JSON.stringify(data);
+    } catch {
+      /* keep default */
+    }
+    throw new Error(detail);
+  }
+}
+
+export async function verifySignup(email: string, code: string): Promise<void> {
+  const res = await apiFetch('/auth/signup/verify/', {
+    method: 'POST',
+    body: { email, code },
+  });
+  if (!res.ok) {
+    let detail = 'Codul este invalid sau expirat.';
+    try {
+      const data = await res.json();
+      detail = data.code?.[0] ?? data.email?.[0] ?? data.detail ?? JSON.stringify(data);
     } catch {
       /* keep default */
     }
@@ -115,6 +132,23 @@ export async function signup(email: string, password: string): Promise<void> {
   }
   const data = await res.json();
   if (data.access) setTokens(data.access, data.refresh);
+}
+
+export async function resendSignupOtp(email: string): Promise<void> {
+  const res = await apiFetch('/auth/signup/resend/', {
+    method: 'POST',
+    body: { email },
+  });
+  if (!res.ok) {
+    let detail = 'Nu am putut retrimite codul.';
+    try {
+      const data = await res.json();
+      detail = data.email?.[0] ?? data.detail ?? JSON.stringify(data);
+    } catch {
+      /* keep default */
+    }
+    throw new Error(detail);
+  }
 }
 
 export async function getLesson(slug: string): Promise<{ is_unlocked: boolean } | null> {

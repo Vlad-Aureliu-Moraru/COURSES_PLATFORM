@@ -47,6 +47,29 @@ def _send_html_email(email, subject, text_body, html_body):
     message.send()
 
 
+def send_signup_otp_email(email, code):
+    subject = 'Codul tău de verificare — BaniOnline'
+    text_body = (
+        f'Salut!\n\n'
+        f'Codul tău de verificare pentru BaniOnline este:\n\n'
+        f'{code}\n\n'
+        'Introdu codul în pagina de înregistrare pentru a activa contul.\n'
+        f'Codul expiră în 15 minute.\n'
+        f'Dacă nu ai cerut acest cod, ignoră acest mesaj.\n\n'
+        'Echipa BaniOnline'
+    )
+    html_body = _wrap_html(
+        f'<h1 style="margin:0 0 8px;font-size:20px;color:#0f172a;">Verifică-ți emailul</h1>'
+        f'<p style="margin:0;font-size:15px;color:#334155;line-height:1.6;">'
+        f'Introdu codul de mai jos în pagina de înregistrare pentru a-ți activa contul:</p>'
+        f'<p style="margin:20px 0 0;padding:16px 20px;background-color:#f1f5f9;border-radius:12px;'
+        f'font-size:32px;font-weight:bold;letter-spacing:8px;text-align:center;color:#4f46e5;">{code}</p>'
+        f'<p style="margin:16px 0 0;font-size:13px;color:#64748b;">Codul expiră în 15 minute.<br>'
+        f'Dacă nu ai cerut acest cod, ignoră acest mesaj.</p>'
+    )
+    _send_html_email(email, subject, text_body, html_body)
+
+
 def send_welcome_email(email, full_name=None):
     name = full_name or email
     subject = 'Bine ai venit la BaniOnline!'

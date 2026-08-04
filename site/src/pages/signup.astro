@@ -52,12 +52,49 @@ import Layout from '../layouts/Layout.astro';
       <p id="form-error" class="hidden rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"></p>
 
       <button
+        id="signup-submit"
         type="submit"
         class="w-full rounded-lg bg-brand-600 px-6 py-3 text-base font-semibold text-white shadow-lift transition-all hover:-translate-y-0.5 hover:bg-brand-700"
       >
         Creează contul
       </button>
     </form>
+
+    <div id="otp-step" class="hidden">
+      <div class="rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-soft">
+        <div class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-100 text-2xl">✉️</div>
+        <h2 class="font-sans text-xl font-bold text-ink">Verifică-ți emailul</h2>
+        <p class="mt-2 text-sm text-slate-600">
+          Am trimis un cod de 6 cifre la <strong id="otp-email" class="text-ink"></strong>. Introdu-l mai jos
+          pentru a-ți activa contul.
+        </p>
+        <form id="otp-form" class="mt-6 space-y-4">
+          <input
+            id="otp-code"
+            name="code"
+            type="text"
+            inputmode="numeric"
+            pattern="[0-9]{6}"
+            maxlength="6"
+            required
+            autocomplete="one-time-code"
+            class="w-full rounded-lg border border-slate-300 px-4 py-3 text-center text-xl font-semibold tracking-[0.5em] text-ink outline-none transition-colors focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
+            placeholder="000000"
+          />
+          <p id="otp-error" class="hidden rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"></p>
+          <button
+            type="submit"
+            class="w-full rounded-lg bg-brand-600 px-6 py-3 text-base font-semibold text-white shadow-lift transition-all hover:-translate-y-0.5 hover:bg-brand-700"
+          >
+            Activează contul
+          </button>
+          <p class="text-center text-sm text-slate-600">
+            Nu ai primit codul?
+            <button id="resend-btn" type="button" class="font-semibold text-brand-600 hover:text-brand-700">Trimite din nou</button>
+          </p>
+        </form>
+      </div>
+    </div>
 
     <p class="mt-6 text-center text-sm text-slate-600">
       Ai deja cont?
@@ -67,14 +104,24 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <script>
-  import { signup } from '../lib/api';
+  import { signup, verifySignup, resendSignupOtp } from '../lib/api';
 
   const nextParam = new URLSearchParams(window.location.search).get('next');
   const next = nextParam && nextParam.startsWith('/') && !nextParam.startsWith('//')
     ? nextParam
     : '/curs';
+
   const form = document.getElementById('signup-form') as HTMLFormElement | null;
   const errorEl = document.getElementById('form-error') as HTMLParagraphElement | null;
+  const signupStep = document.getElementById('signup-form');
+  const otpStep = document.getElementById('otp-step');
+  const otpEmail = document.getElementById('otp-email');
+  const otpForm = document.getElementById('otp-form') as HTMLFormElement | null;
+  const otpError = document.getElementById('otp-error') as HTMLParagraphElement | null;
+  const otpCode = document.getElementById('otp-code') as HTMLInputElement | null;
+  const resendBtn = document.getElementById('resend-btn');
+
+  let signupEmail = '';
 
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -91,11 +138,56 @@ import Layout from '../layouts/Layout.astro';
     if (errorEl) errorEl.classList.add('hidden');
     try {
       await signup(email, password);
-      window.location.href = next;
+      signupEmail = email;
+      if (signupStep) signupStep.classList.add('hidden');
+      if (otpStep) otpStep.classList.remove('hidden');
+      if (otpEmail) otpEmail.textContent = email;
+      otpCode?.focus();
     } catch (err) {
       if (errorEl) {
         errorEl.textContent = err instanceof Error ? err.message : 'Înregistrarea a eșuat.';
         errorEl.classList.remove('hidden');
+      }
+    }
+  });
+
+  otpForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const code = (otpCode?.value ?? '').trim();
+    if (otpError) otpError.classList.add('hidden');
+    try {
+      await verifySignup(signupEmail, code);
+      window.location.href = next;
+    } catch (err) {
+      if (otpError) {
+        otpError.textContent = err instanceof Error ? err.message : 'Codul este invalid sau expirat.';
+        otpError.classList.remove('hidden');
+      }
+    }
+  });
+
+  resendBtn?.addEventListener('click', async () => {
+    if (resendBtn) {
+      resendBtn.disabled = true;
+      resendBtn.textContent = 'Se trimite...';
+    }
+    try {
+      await resendSignupOtp(signupEmail);
+      if (otpError) {
+        otpError.textContent = 'Am trimis un cod nou. Verifică-ți emailul.';
+        otpError.classList.remove('hidden');
+        otpError.classList.remove('border-red-200', 'bg-red-50', 'text-red-700');
+        otpError.classList.add('border-emerald-200', 'bg-emerald-50', 'text-emerald-700');
+      }
+    } catch (err) {
+      if (otpError) {
+        otpError.textContent = err instanceof Error ? err.message : 'Nu am putut retrimite codul.';
+        otpError.classList.remove('hidden');
+      }
+    } finally {
+      if (resendBtn) {
+        resendBtn.disabled = false;
+        resendBtn.textContent = 'Trimite din nou';
       }
     }
   });

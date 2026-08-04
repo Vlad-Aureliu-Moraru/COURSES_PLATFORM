@@ -34,7 +34,7 @@ def webhook_event(event):
         )
 
 
-def test_signup_sends_welcome_email(db):
+def test_signup_sends_otp_email(db, mailoutbox):
     client = APIClient()
     response = client.post(
         '/api/v1/auth/signup/',
@@ -45,9 +45,39 @@ def test_signup_sends_welcome_email(db):
     assert len(mail.outbox) == 1
     sent = mail.outbox[0]
     assert sent.to == ['new@test.com']
-    assert 'Bine ai venit' in sent.subject
+    assert 'Codul tău de verificare' in sent.subject
     assert len(sent.alternatives) == 1
     assert sent.alternatives[0][1] == 'text/html'
+
+
+def test_signup_verify_sends_welcome_email(db, mailoutbox):
+    from apps.accounts.models import EmailVerificationCode, User
+
+    client = APIClient()
+    client.post(
+        '/api/v1/auth/signup/',
+        {'email': 'new@test.com', 'password': 'StrongPass1', 'password2': 'StrongPass1'},
+        format='json',
+    )
+    user = User.objects.get(email='new@test.com')
+    instance = EmailVerificationCode.objects.get(user=user)
+    code = next(
+        f'{i:06d}'
+        for i in range(1000000)
+        if EmailVerificationCode.hash_code(f'{i:06d}') == instance.code_hash
+    )
+    response = client.post(
+        '/api/v1/auth/signup/verify/',
+        {'email': 'new@test.com', 'code': code},
+        format='json',
+    )
+    assert response.status_code == 200
+    assert len(mail.outbox) == 2
+    welcome = mail.outbox[-1]
+    assert welcome.to == ['new@test.com']
+    assert 'Bine ai venit' in welcome.subject
+    assert len(welcome.alternatives) == 1
+    assert welcome.alternatives[0][1] == 'text/html'
 
 
 def test_payment_completed_sends_confirmation_email(db):

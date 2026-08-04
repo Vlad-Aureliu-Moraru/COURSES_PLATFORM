@@ -1,11 +1,15 @@
 import re
+from datetime import timedelta
 
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import CommonPasswordValidator
+from django.utils import timezone
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from .models import PasswordResetToken, User
+from .models import EmailVerificationCode, PasswordResetToken, User
+
+INACTIVE_USER_TTL = timedelta(hours=24)
 
 
 def validate_password_strength(value):
@@ -36,11 +40,21 @@ class SignupSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['email', 'password', 'password2', 'first_name', 'last_name']
+        extra_kwargs = {
+            'email': {'validators': []},
+        }
 
     def validate_email(self, value):
         value = value.strip().lower()
-        if User.objects.filter(email__iexact=value).exists():
-            raise serializers.ValidationError('Există deja un cont cu acest email.')
+        existing = User.objects.filter(email__iexact=value).first()
+        if existing is not None:
+            if (
+                not existing.is_active
+                and existing.date_joined < timezone.now() - INACTIVE_USER_TTL
+            ):
+                existing.delete()
+            else:
+                raise serializers.ValidationError('Există deja un cont cu acest email.')
         return value
 
     def validate_password(self, value):
@@ -56,9 +70,50 @@ class SignupSerializer(serializers.ModelSerializer):
         password = validated_data.pop('password')
         validated_data['username'] = validated_data['email']
         user = User(**validated_data)
+        user.is_active = False
         user.set_password(password)
         user.save()
         return user
+
+
+class VerifySignupSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    code = serializers.CharField(write_only=True)
+
+    def validate_email(self, value):
+        self.user = User.objects.filter(email__iexact=value.strip().lower()).first()
+        if self.user is None:
+            raise serializers.ValidationError('Contul nu există.')
+        return value
+
+    def validate(self, attrs):
+        if self.user.is_active:
+            raise serializers.ValidationError('Contul este deja verificat.')
+        instance = EmailVerificationCode.consume(self.user, attrs['code'])
+        if instance is None:
+            raise serializers.ValidationError({'code': 'Codul este invalid sau expirat.'})
+        attrs['_verification'] = instance
+        return attrs
+
+    def save(self):
+        self.user.is_active = True
+        self.user.failed_login_attempts = 0
+        self.user.locked_until = None
+        self.user.save(update_fields=['is_active', 'failed_login_attempts', 'locked_until'])
+        self.validated_data['_verification'].delete()
+        return self.user
+
+
+class ResendSignupCodeSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+    def validate_email(self, value):
+        self.user = User.objects.filter(email__iexact=value.strip().lower()).first()
+        if self.user is None:
+            raise serializers.ValidationError('Contul nu există.')
+        if self.user.is_active:
+            raise serializers.ValidationError('Contul este deja verificat.')
+        return value
 
 
 class EmailTokenObtainPairSerializer(TokenObtainPairSerializer):

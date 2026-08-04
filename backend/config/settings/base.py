@@ -135,6 +135,8 @@ REST_FRAMEWORK = {
         'anon': '60/hour',
         'user': '200/hour',
         'signup': '2/min',
+        'signup_verify': '10/min',
+        'signup_resend': '2/min',
         'login': '5/min',
         'password_reset_request': '2/min',
         'checkout': '10/min',
