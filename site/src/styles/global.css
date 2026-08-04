@@ -83,12 +83,7 @@
   }
 
   .prose-course table {
-    @apply my-6 rounded-xl border border-slate-200;
-    display: block;
-    width: max-content;
-    max-width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    @apply my-6 w-full rounded-xl border border-slate-200;
   }
 
   .prose-course thead {
@@ -97,10 +92,14 @@
 
   .prose-course th {
     @apply px-4 py-3;
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
 
   .prose-course td {
     @apply px-4 py-3;
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
 
   .prose-course tbody tr:nth-child(even) {
@@ -114,8 +113,8 @@
   .prose-course pre {
     @apply rounded-xl;
     max-width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
   }
 
   .prose-course code {
