@@ -24,7 +24,7 @@ const sorted = [...modules].sort((a, b) => (a.data.order ?? 0) - (b.data.order ?
     sorted.map((m) => (
       <a
         href={`/curs/${m.id}`}
-        class="group flex flex-col rounded-xl border border-slate-200 bg-white p-6 shadow-soft transition-all hover:-translate-y-1 hover:border-brand-200 hover:shadow-lift"
+        class="group flex min-w-0 flex-col rounded-xl border border-slate-200 bg-white p-6 shadow-soft transition-all hover:-translate-y-1 hover:border-brand-200 hover:shadow-lift"
       >
         <div class="mb-4 flex items-center justify-between">
           <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-sm font-bold text-brand-700 transition-colors group-hover:bg-brand-600 group-hover:text-white">

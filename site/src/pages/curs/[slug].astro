@@ -75,7 +75,7 @@ const shortTitle = module.data.title?.replace(/^Modulul\s+\d+\s+—\s+/, '') ?? 
           {prev ? (
             <a
               href={`/curs/${prev.id}`}
-              class="group rounded-xl border border-slate-200 bg-white p-5 transition-all hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-lift"
+              class="group min-w-0 rounded-xl border border-slate-200 bg-white p-5 transition-all hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-lift"
             >
               <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">← Modulul anterior</p>
               <p class="mt-1.5 font-sans font-semibold text-ink group-hover:text-brand-700">
@@ -88,7 +88,7 @@ const shortTitle = module.data.title?.replace(/^Modulul\s+\d+\s+—\s+/, '') ?? 
           {next ? (
             <a
               href={`/curs/${next.id}`}
-              class="group rounded-xl border border-slate-200 bg-white p-5 text-right transition-all hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-lift"
+              class="group min-w-0 rounded-xl border border-slate-200 bg-white p-5 text-right transition-all hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-lift"
             >
               <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Modulul următor →</p>
               <p class="mt-1.5 font-sans font-semibold text-ink group-hover:text-brand-700">
