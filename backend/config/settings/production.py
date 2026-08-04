@@ -56,7 +56,7 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
 DEFAULT_FROM_EMAIL = config(
-    'DEFAULT_FROM_EMAIL', default='BaniOnline <pressync.app@gmail.com>'
+    'DEFAULT_FROM_EMAIL', default='BaniOnline <onboarding@resend.dev>'
 )
 
 REST_FRAMEWORK['DEFAULT_THROTTLE_RATES'] = {
